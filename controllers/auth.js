@@ -172,11 +172,11 @@ module.exports.signin = async(req, res) => {
 
                 //res.send("Auth Successful");
             } else {
-              res.send("Wrong email or password.");
+              res.status(400).send("Wrong email or password.");
             }
         } 
         else {
-        res.send("Wrong username or password.");
+        res.status(400).send("Wrong username or password.");
         }
     }
     catch(error){
