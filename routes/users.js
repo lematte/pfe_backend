@@ -4,7 +4,7 @@ var auth = require('../middleware/auth')
 const userController = require('../controllers/userController')
     
 router.get('/',auth.requireSignIn, userController.getAll );
-router.get('/:id/getuser', userController.getById)
+router.get('/:id', userController.getById)
 router.put('/:id/update', userController.update)
 router.delete('/:id/delete', userController.delete)
 

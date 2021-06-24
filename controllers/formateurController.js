@@ -1,83 +1,107 @@
-const Formateur =require('../models/FormateurModel')
-const Users = require('../models/UserModel')
+const Formateur = require('../models/FormateurModel');
+const Users = require('../models/UserModel');
 var bcrypt = require('bcrypt');
 
-module.exports.getAll = async (req, res, next) => 
-{
+module.exports.getAll = async (req, res, next) => {
+  try {
     await Formateur.find({
-        isVisible : "true"
-    }).sort({createdAt : -1})
-    .then(data=> {
-        res.json(data)
-    }).catch(err=>{
-        res.json(err)
+      isVisible: 'true',
     })
-}
+      .sort({createdAt: -1})
+      .populate('User')
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((err) => {
+        res.json(err);
+      });
+  } catch (err) {
+    res.status(404).json({message: error.message});
+  }
+};
 
-module.exports.getById = (req, res, next) =>
-{
-    Formateur.findById({ _id : req.params.id })
-    .then(data=> {
-        res.json(data)
-    }).catch(err=>{
-        res.json(err)
+module.exports.getById = (req, res, next) => {
+  Formateur.findById({_id: req.params.id})
+    .populate('User')
+    .then((data) => {
+      res.json(data);
     })
-}
+    .catch((err) => {
+      res.json(err);
+    });
+};
 
-module.exports.update =( req , res , next ) => 
-{
-    const id = req.params.id;
-    const formateur = Formateur.findByIdAndUpdate({_id : id},
-        {
-            Prenom: req.body.Prenom,
-            Nom: req.body.Nom,
-            Etudes_effectuees:req.body.Etudes_effectuees,
-            Expériences:req.body.Expériences,
-        }, 
-        { new: true })
-        .then(data=> { res.json(data)
-            const idu = data.User;
-            const user =  Users.findByIdAndUpdate( {_id : idu},
-            {
-                Email : req.body.Email,
-                Password: bcrypt.hashSync(req.body.Password, 8),
-                Téléphone : req.body.Téléphone,
-                IDcardnumber : req.body.IDcardnumber,
-                Pays : req.body.Pays,
-                Ville: req.body.Ville,
-                Photo : req.body.Photo,
-            }, 
-            { new: true })
-            .then(data=> {
-                res.json(data)
-            }).catch(err=>{
-                res.json(err)
-            })
-    }).catch(err=>{
-        res.json(err)
-    })
-}
+module.exports.getByIdUser = async (req, res, next) => {
+  try {
+    const formateur = await Formateur.findOne({User: req.body.User});
+    res.status(200).json(formateur);
+  } catch (err) {
+    res.status(404).json({message: error.message});
+  }
+};
 
-module.exports.delete= (req, res, next)=> {
-    const id = req.params.id;
-    const formateur = Formateur.findByIdAndUpdate({_id : id},
+module.exports.update = (req, res, next) => {
+  const id = req.params.id;
+  const formateur = Formateur.findByIdAndUpdate(
+    {_id: id},
     {
-    isVisible : false
-    }, 
-    { new: true })
-    .then(data=> {
-    const idu = data.User;
-    const user = Users.findByIdAndUpdate({_id : idu},
+      Prenom: req.body.Prenom,
+      Nom: req.body.Nom,
+      Etudes_effectuees: req.body.Etudes_effectuees,
+      Expériences: req.body.Expériences,
+    },
+    {new: true}
+  )
+    .then((data) => {
+      res.json(data);
+      const idu = data.User;
+      const user = Users.findByIdAndUpdate(
+        {_id: idu},
         {
-            isVisible : false
-        }, 
-        { new: true })
-        .then(data=> {
-            res.json("done")
+          Email: req.body.Email,
+          Password: bcrypt.hashSync(req.body.Password, 8),
+          Téléphone: req.body.Téléphone,
+          IDcardnumber: req.body.IDcardnumber,
+          Pays: req.body.Pays,
+          Ville: req.body.Ville,
+          Photo: req.body.Photo,
+        },
+        {new: true}
+      )
+        .then((data) => {
+          res.json(data);
         })
-    }).catch(err=>{
-        res.json(err)
+        .catch((err) => {
+          res.json(err);
+        });
     })
-}
+    .catch((err) => {
+      res.json(err);
+    });
+};
 
-
+module.exports.delete = (req, res, next) => {
+  const id = req.params.id;
+  const formateur = Formateur.findByIdAndUpdate(
+    {_id: id},
+    {
+      isVisible: false,
+    },
+    {new: true}
+  )
+    .then((data) => {
+      const idu = data.User;
+      const user = Users.findByIdAndUpdate(
+        {_id: idu},
+        {
+          isVisible: false,
+        },
+        {new: true}
+      ).then((data) => {
+        res.json('done');
+      });
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};

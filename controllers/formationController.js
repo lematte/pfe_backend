@@ -5,6 +5,9 @@ module.exports.getAll = async (req, res, next) =>
     await Formation.find({
         isVisible : "true"
     }).sort({createdAt : -1})
+    .populate('Formateur')
+    .populate('Centre_formation')
+    .populate('Examen')
     .then(data=> {
         res.json(data)
     }).catch(err=>{
@@ -15,6 +18,9 @@ module.exports.getAll = async (req, res, next) =>
 module.exports.getById = (req, res, next) =>
 {
     Formation.findById({ _id : req.params.id })
+    .populate('Formateur')
+    .populate('Centre_formation')
+    .populate('Examen')
     .then(data=> {
         res.json(data)
     }).catch(err=>{

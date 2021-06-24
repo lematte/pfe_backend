@@ -13,9 +13,9 @@ module.exports.getAll = async (req, res, next) =>
     })
 }
 
-module.exports.getById = (req, res, next) =>
+module.exports.getById = async (req, res, next) =>
 {
-    Users.findById({ _id : req.params.id })
+    await Users.findById({ _id : req.params.id })
     .then(data=> {
         res.json(data)
     }).catch(err=>{
@@ -83,39 +83,28 @@ module.exports.add = async(req, res, next ) =>
 module.exports.update = async (req, res, next) => 
 {
     const id = req.params.id;
-
-    const{
-        Email,
-        Password,
-        Téléphone,
-        IDcardnumber,
-        Pays,
-        Ville,
-        Photo,
-        role,
-    } = req.body
+    const hashedPassword = await bcrypt.hash(req.body.password, (10))
+    const data = {
+        Email : req.body.email,
+        Password : hashedPassword,
+        Téléphone : req.body.téléphone,
+        IDcardnumber : req.body.idcardnumber,
+        Pays : req.body.pays,
+        Ville : req.body.ville,
+        //Photo: req.body.photo,
+        role : req.body.role
+    } 
 
     //Simple validation
-    if( !Email ||!Password||!Téléphone ||!IDcardnumber ||!Pays ||!Ville ||!role) {
+   /* if( !Email ||!Password||!Téléphone ||!IDcardnumber ||!Pays ||!Ville ||!role) {
         return res.status(400).json({ 'error' : 'Please enter all fields'}) 
     }
     if(Password.length<6)
     return res.status(400).json({
         msg:"Le mot de passe comporte au moins 6 caractères."
     })
-    const hashedPassword = await bcrypt.hash(Password, (10))
-    const user =  Users.findByIdAndUpdate( {_id : id},
-    {
-        Email,
-        Password: hashedPassword,
-        Téléphone,
-        IDcardnumber,
-        Pays,
-        Ville,
-        Photo,
-        role,
-    }, 
-    { new: true })
+   */
+    const user =  Users.findByIdAndUpdate( {_id : id}, data, { new: true })
     .then(data=> {
         res.json(data)
     }).catch(err=>{

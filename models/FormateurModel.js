@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const deepPopulate = require('mongoose-deep-populate')(mongoose);
-const findVisible = require('./findVisible');
 
 const FormateurSchema = new mongoose.Schema({
     Prenom :{
@@ -13,40 +11,24 @@ const FormateurSchema = new mongoose.Schema({
     },
     Etudes_effectuees :{
         type:String,
-        required:true,
+       // required:true,
     },
     Expériences  :{
         type:String,
-        required:true,
+       // required:true,
     },
     User: {
         type : mongoose.Schema.Types.ObjectId, 
         ref :'Users'
     },
     isVisible : {
-        type: Boolean , 
+        type: Boolean ,
         default: true
     },
     createdAt : {
         type:Date
     }
 })
-
-const population = [{
-    path: 'User',
-    match : {isVisible: true}
-}
-]
-
-
-FormateurSchema.pre('find', findVisible(population));
-FormateurSchema.pre('findOne', findVisible(population));
-FormateurSchema.pre('findOneAndUpdate', findVisible());
-FormateurSchema.pre('count', findVisible());
-FormateurSchema.pre('countDocuments', findVisible());
-
-
-FormateurSchema.plugin(deepPopulate,{})
 
 const Formateur = mongoose.model('Formateur', FormateurSchema);
 module.exports = Formateur

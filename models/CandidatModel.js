@@ -13,7 +13,7 @@ const CandidatSchema = new mongoose.Schema({
     },
     Genre:{
         type:String,
-        required:true,
+        //required:true,
     },
     User: {
         type : mongoose.Schema.Types.ObjectId, 
@@ -27,7 +27,7 @@ const CandidatSchema = new mongoose.Schema({
         type:Date
     }
 })
-
+/*
 const population = [
 {
     path: 'User',
@@ -41,5 +41,6 @@ CandidatSchema.pre('count', findVisible());
 CandidatSchema.pre('countDocuments', findVisible());
 
 CandidatSchema.plugin(deepPopulate,{})
-
-module.exports = mongoose.model('Candidat', CandidatSchema);
+*/
+const Candidat = mongoose.model('Candidat', CandidatSchema);
+module.exports = Candidat

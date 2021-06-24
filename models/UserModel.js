@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const deepPopulate = require('mongoose-deep-populate')(mongoose);
-const bcrypt = require('bcrypt');
 
 const UserSchema = new mongoose.Schema({
     Email: {
@@ -13,19 +11,19 @@ const UserSchema = new mongoose.Schema({
     },
     Téléphone: {
         type : Number,
-        required:true
+       // required:true
     },
     IDcardnumber: {
         type : Number,
-        required:true
+        //required:true
     },
     Pays:{
         type : String,
-        required:true
+        //required:true
     }, 
     Ville:{
         type : String,
-        required:true
+        //required:true
     }, 
     Photo: {
         type : String,
@@ -44,12 +42,6 @@ const UserSchema = new mongoose.Schema({
     }
 });
 
-/*UserSchema.methods.hashPassword = function(Password){
-    return bcrypt.hashSync(Password,bcrypt.genSaltSync(10))
-}
-UserSchema.methods.comparePassword = function(Password, hash){
-    return bcrypt.compareSync(Password,hash)
-}*/
 
 const Users = mongoose.model('Users', UserSchema);
 module.exports = Users

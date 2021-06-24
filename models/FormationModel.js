@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const deepPopulate = require('mongoose-deep-populate')(mongoose);
-const findVisible = require('./findVisible');
+//const deepPopulate = require('mongoose-deep-populate')(mongoose);
+//const findVisible = require('./findVisible');
 
 const FormationSchema = mongoose.Schema({
     Libelle: {
@@ -53,6 +53,7 @@ const FormationSchema = mongoose.Schema({
     }
 
 })
+/*
 const population = [{
     path: 'Formateur',
     match : {isVisible: true}
@@ -73,5 +74,6 @@ FormationSchema.pre('count', findVisible());
 FormationSchema.pre('countDocuments', findVisible());
 
 
-FormationSchema.plugin(deepPopulate,{})
+FormationSchema.plugin(deepPopulate,{})*/
+
 module.exports = mongoose.model('Formation',FormationSchema)

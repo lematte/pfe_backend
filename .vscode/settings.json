@@ -1,5 +1,5 @@
 {
     "editor.fontSize": 12,
-    "files.autoSave": "afterDelay",
+    "files.autoSave": "off",
     "editor.accessibilityPageSize": 6
 }

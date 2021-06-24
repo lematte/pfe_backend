@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const bodyParser = require("body-parser")
 require('dotenv').config();
+var cors = require('cors');
 
 var authRouter = require('./routes/auth.route');
 var usersRouter = require('./routes/users');
@@ -26,6 +27,9 @@ var app = express();
 //configuration de Body Parser
 app.use(bodyParser.urlencoded({extended: true})); //pour forcer le parse dans le objects incluent dans d'autres 
 app.use(bodyParser.json());
+
+
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -56,18 +60,18 @@ app.use(function (req, res, next) {
 //Configuration routes
 app.use('/', authRouter);
 
-app.use('/centre_formation', centreformationRouter);
-app.use('/formateur', formateurRouter);
-app.use('/candidat', candidatRouter);
+app.use('/centre_formations', centreformationRouter);
+app.use('/formateurs', formateurRouter);
+app.use('/candidats', candidatRouter);
 app.use('/admin', adminRouter);
 app.use('/users', usersRouter);
 app.use('/examen', examenRouter);
-app.use('/formation', formationRouter);
-app.use('/certificat', certificatRouter);
-app.use('/evaluation', evaluationRouter);
-app.use('/salle',salleRouter)
-app.use('/contrat_formation',contratformationRouter)
-app.use('/contrat_formateur',contratformateurRouter)
+app.use('/formations', formationRouter);
+app.use('/certificats', certificatRouter);
+app.use('/evaluations', evaluationRouter);
+app.use('/salles',salleRouter)
+app.use('/contrat_formations',contratformationRouter)
+app.use('/contrat_formateurs',contratformateurRouter)
 
 
 
@@ -75,6 +79,7 @@ app.use('/contrat_formateur',contratformateurRouter)
 mongoose.connect(process.env.DB_CONNECTION, 
 {
   useNewUrlParser: true  ,
+  useFindAndModify: false ,
   useUnifiedTopology: true ,
   useCreateIndex: true
 })

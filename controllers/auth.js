@@ -22,7 +22,7 @@ module.exports.signup = async ( req , res , next ) => {
     } = req.body
 
     //Simple validation
-    if( !Email ||!Password||!Téléphone ||!IDcardnumber ||!Pays ||!Ville ||!role) {
+    if( !Email ||!Password||!role) {
         return res.status(400).json({ 'error' : 'Please enter all fields'}) 
     }
     //mail regex
@@ -62,7 +62,7 @@ module.exports.signup = async ( req , res , next ) => {
                 })
                 newcentre.save()
                 .then(data=> {
-                    res.json(data)
+                    res.status(200).json(data)
                 }).catch(err=>{
                     res.json(err)
                 })
@@ -80,7 +80,7 @@ module.exports.signup = async ( req , res , next ) => {
                     })
                     newFormateur.save()
                     .then(data=> {
-                        res.json(data)
+                        res.status(200).json(data)
                     }).catch(err=>{
                         res.json(err)
                     })
@@ -98,7 +98,7 @@ module.exports.signup = async ( req , res , next ) => {
                         newCandidat.save()
                         .then(
                             data=> {
-                            res.json(data)
+                                res.status(200).json(data)
                         }).catch(err=>{
                             res.json(err)
                         })
@@ -114,7 +114,7 @@ module.exports.signup = async ( req , res , next ) => {
                             })
                             newAdmin.save()
                             .then(data=> {
-                                res.json(data)
+                                res.status(200).json(data)
                             }).catch(err=>{
                                 res.json(err)
                             })
@@ -125,7 +125,7 @@ module.exports.signup = async ( req , res , next ) => {
         })
     })
     }catch{
-        res.status(500).send()
+        res.status(400).send()
     }
 }
 
@@ -181,7 +181,7 @@ module.exports.signin = async(req, res) => {
     }
     catch(error){
         console.log(error);
-    res.status(500).send("Internal Server error Occured");
+    res.status(400).send("Internal Server error Occured");
     }
 } 
 
