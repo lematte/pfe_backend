@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-//const deepPopulate = require('mongoose-deep-populate')(mongoose);
-//const findVisible = require('./findVisible');
 
 const FormationSchema = mongoose.Schema({
     Libelle: {
@@ -14,7 +12,7 @@ const FormationSchema = mongoose.Schema({
     Type: {
         type : String,
         required:true,
-        enum:["présentielle","en ligne"]
+        enum:["presentielle","en ligne"]
     },
     Date: {
         type : String,
@@ -51,29 +49,6 @@ const FormationSchema = mongoose.Schema({
     createdAt : {
         type:Date
     }
-
 })
-/*
-const population = [{
-    path: 'Formateur',
-    match : {isVisible: true}
-},{
-    path: 'Centre_formation',
-    match : {isVisible: true}
-},{
-    path: 'Examen',
-    match : {isVisible: true}
-}
-]
-
-
-FormationSchema.pre('find', findVisible(population));
-FormationSchema.pre('findOne', findVisible(population));
-FormationSchema.pre('findOneAndUpdate', findVisible());
-FormationSchema.pre('count', findVisible());
-FormationSchema.pre('countDocuments', findVisible());
-
-
-FormationSchema.plugin(deepPopulate,{})*/
 
 module.exports = mongoose.model('Formation',FormationSchema)

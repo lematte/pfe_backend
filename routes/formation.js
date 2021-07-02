@@ -3,9 +3,11 @@ var router = express.Router();
 const formationController = require('../controllers/formationController')
     
 router.get('/', formationController.getAll);
+router.get('/getByIdCentre/:id', formationController.getByIdCentre)
 router.post('/add', formationController.add)
 router.get('/:id', formationController.getById)
 router.put('/:id/update', formationController.update)
-router.delete('/:id/delete', formationController.delete)
+router.delete('/delete/:id', formationController.delete)
+
 
 module.exports = router;

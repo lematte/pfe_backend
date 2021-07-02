@@ -26,7 +26,7 @@ module.exports.add =( req , res , next ) =>
 {
     const newSalle = new Salle({
         Libelle : req.body.Libelle,  
-        état : req.body.état,
+        etat : req.body.etat,
         Formation: req.body.Formation,
         createdAt : new Date()
     })
@@ -44,7 +44,7 @@ module.exports.update = (req, res, next) =>
     const salle =  Salle.findByIdAndUpdate( {_id : id},
     {
         Libelle : req.body.Libelle,  
-        état : req.body.état,
+        etat : req.body.etat,
         Formation: req.body.Formation
     }, 
     { new: true })

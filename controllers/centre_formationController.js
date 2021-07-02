@@ -16,12 +16,12 @@ module.exports.getAll = async (req, res, next) => {
 };
 
 module.exports.getByIdUser = async (req, res, next) => {
-  await Centreformation.find( {User:  req.body.User})
-  .populate('User')
-    .then(data => {
+  await Centreformation.findOne({User: req.params.id})
+    .populate('User')
+    .then((data) => {
       res.json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       res.json(err);
     });
 };

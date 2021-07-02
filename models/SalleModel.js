@@ -7,10 +7,10 @@ const SalleSchema = mongoose.Schema({
         type : String,
         required:true
     },
-    état: {
+    etat: {
         type : String,
         required:true,
-        enum:["libre","occupée"]
+        enum:["libre","occupee"]
     },
     Formation : {
         type:mongoose.Schema.Types.ObjectId,

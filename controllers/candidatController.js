@@ -83,39 +83,53 @@ module.exports.update = async (req, res, next) => {
       Genre: req.body.genre,
     },
     {new: true}
-  )
-    .then((Data) => {
-      if (Data)
-      {
-      res.json(Data. populate('User'))
+  ).then((Data) => {
+    if (Data) {
+      res.json(Data.populate('User'));
       const idu = Data.User;
       const user = Users.findByIdAndUpdate(
-        {_id: idu}, 
-      {
-        Email: req.body.email,
-        Password: bcrypt.hashSync(req.body.password, 8),
-        Téléphone: req.body.téléphone,
-        IDcardnumber: req.body.idcardnumber,
-        Pays: req.body.pays,
-        Ville: req.body.ville,
-        //Photo: req.body.photo
-      },
-      {new: true}
-      ) .then(data=> {
-        res.json(data)
-    }).catch(err=>{
-        res.json(err)
-    })
-
-    } else
-      res.json({status: "error update user"});
-
-    })
- /*   .catch((err) => {
+        {_id: idu},
+        {
+          Email: req.body.email,
+          // Password: bcrypt.hashSync(req.body.password, 8),
+          Téléphone: req.body.téléphone,
+          IDcardnumber: req.body.idcardnumber,
+          Pays: req.body.pays,
+          Ville: req.body.ville,
+          //Photo: req.body.photo
+        },
+        {new: true}
+      )
+        .then((data) => {
+          res.json(data);
+        })
+        .catch((err) => {
+          res.json(err);
+        });
+    } else res.json({status: 'error update user'});
+  });
+  /*   .catch((err) => {
       res.json(err);
     });*/
 };
 
+module.exports.updatePassword = async (req, res, next) => {
+  const id = req.params.id;
+  const user = await Users.findByIdAndUpdate(
+    {_id: id},
+    {
+      Password: bcrypt.hashSync(req.body.password, 8), 
+      //Photo: req.body.photo
+    },
+    {new: true}
+  )
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
 /*module.exports.update = async (req, res, next) => {
   const id = req.params.id;
   const candidat = Candidat.findByIdAndUpdate(

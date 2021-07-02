@@ -4,7 +4,7 @@ const CentreformationController = require('../controllers/centre_formationContro
 
 router.get('/',CentreformationController.getAll);
 router.get('/getBy', CentreformationController.getBy);
-router.get('/getByIdUser', CentreformationController.getByIdUser);
+router.get('/getByIdUser/:id', CentreformationController.getByIdUser);
 router.get('/:id', CentreformationController.getById)
 router.put('/:id/update', CentreformationController.update)
 router.delete('/:id/delete', CentreformationController.deletecentre)
