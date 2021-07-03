@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+/*
 const deepPopulate = require('mongoose-deep-populate')(mongoose);
 const findVisible = require('./findVisible');
-
+*/
 const SalleSchema = mongoose.Schema({
     Libelle: {
         type : String,
@@ -16,6 +17,10 @@ const SalleSchema = mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Formation'
     },
+    Centre_formation : {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Centre_formation'
+    },
     isVisible : {
         type: Boolean , 
         default: true
@@ -25,6 +30,7 @@ const SalleSchema = mongoose.Schema({
     }
 
 })
+/*
 const population = [{
     path: 'Formation',
     match : {isVisible: true}
@@ -37,7 +43,6 @@ SalleSchema.pre('findOne', findVisible(population));
 SalleSchema.pre('findOneAndUpdate', findVisible());
 SalleSchema.pre('count', findVisible());
 SalleSchema.pre('countDocuments', findVisible());
-
-
 SalleSchema.plugin(deepPopulate,{})
+*/
 module.exports = mongoose.model('Salle',SalleSchema)                                  
