@@ -4,6 +4,7 @@ const contratformationController = require('../controllers/contrat_formationCont
 
 router.get('/',contratformationController.getAll);
 router.get('/:id', contratformationController.getById )
+router.get('/getByIdFormation/:id', contratformationController.getByIdFormation)
 router.post('/add', contratformationController.add);
 router.put('/:id/update', contratformationController.update)
 router.delete('/:id/delete', contratformationController.delete)

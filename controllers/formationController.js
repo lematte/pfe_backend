@@ -34,7 +34,8 @@ module.exports.getByIdCentre = async (req, res, next) => {
       const formation = await Formation.find({
           Centre_formation: req.params.id,
           isVisible : "true"
-        }).populate('Formateur')
+        }).sort({createdAt : -1})
+        .populate('Formateur')
         .populate('Centre_formation')
         .populate('Examen')
       res.status(200).json(formation);

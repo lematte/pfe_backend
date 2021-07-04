@@ -5,6 +5,8 @@ module.exports.getAll = async (req, res, next) =>
     await Contratformation.find({
         isVisible : "true"
     }).sort({createdAt : -1})
+    .populate('Formation')
+    .populate('Candidat')
     .then(data=> {
         res.json(data)
     }).catch(err=>{
@@ -38,7 +40,21 @@ module.exports.add =(req, res ,next) =>
         res.json(err)
     })
 }
-    
+
+module.exports.getByIdFormation = async (req, res, next) => {
+    try {
+      const contratformation = await Contratformation.find({
+        Formation: req.params.id,
+        isVisible: 'true',
+      }).sort({createdAt : -1})
+        .populate('Candidat')
+        .populate('Formation')
+      res.status(200).json(contratformation);
+    } catch (err) {
+      res.status(404).json({message: error.message});
+    }
+  };
+
 module.exports.update = (req, res, next) => 
 {
     const id = req.params.id;

@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+/*
 const deepPopulate = require('mongoose-deep-populate')(mongoose);
 const findVisible = require('./findVisible');
-
+*/
 const ContratformationSchema = mongoose.Schema({
     Libelle: {
         type : String,
@@ -28,6 +29,7 @@ const ContratformationSchema = mongoose.Schema({
     }
 
 })
+/*
 const population = 
 [{
     path: 'Formation',
@@ -45,4 +47,5 @@ ContratformationSchema.pre('count', findVisible());
 ContratformationSchema.pre('countDocuments', findVisible());
 
 ContratformationSchema.plugin(deepPopulate,{})
+*/
 module.exports = mongoose.model('Contratformation',ContratformationSchema)
