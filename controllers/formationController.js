@@ -28,7 +28,6 @@ module.exports.getById = (req, res, next) =>
     })
 }
 
-
 module.exports.getByIdCentre = async (req, res, next) => {
     try {
       const formation = await Formation.find({

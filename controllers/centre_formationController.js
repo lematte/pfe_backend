@@ -78,7 +78,7 @@ module.exports.update = (req, res, next) => {
           IDcardnumber: req.body.IDcardnumber,
           Pays: req.body.Pays,
           Ville: req.body.Ville,
-          Photo: req.body.Photo,
+          //Photo: req.body.Photo,
         },
         {new: true}
       )
