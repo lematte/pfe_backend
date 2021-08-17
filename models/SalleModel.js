@@ -6,16 +6,12 @@ const findVisible = require('./findVisible');
 const SalleSchema = mongoose.Schema({
     Libelle: {
         type : String,
-        required:true
+      //  required:true
     },
     etat: {
         type : String,
-        required:true,
+       // required:true,
         enum:["libre","occupee"]
-    },
-    Formation : {
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Formation'
     },
     Centre_formation : {
         type:mongoose.Schema.Types.ObjectId,

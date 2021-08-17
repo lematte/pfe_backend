@@ -12,7 +12,7 @@ const ContratformationSchema = mongoose.Schema({
         type : String,
         required:true
     },
-    Formation : {
+    Formation :{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Formation'
     },
@@ -21,13 +21,12 @@ const ContratformationSchema = mongoose.Schema({
         ref:'Candidat'
     },
     isVisible : {
-        type: Boolean , 
+        type: Boolean, 
         default: true
     },
     createdAt : {
         type:Date
     }
-
 })
 /*
 const population = 

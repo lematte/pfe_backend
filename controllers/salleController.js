@@ -6,7 +6,6 @@ module.exports.getAll = async (req, res, next) => {
   })
     .sort({createdAt: -1})
     .populate('Centre_formation')
-    .populate('Formation')
     .then((data) => {
       res.json(data);
     })
@@ -18,7 +17,6 @@ module.exports.getAll = async (req, res, next) => {
 module.exports.getById = (req, res, next) => {
   Salle.findById({_id: req.params.id})
     .populate('Centre_formation')
-    .populate('Formation')
     .then((data) => {
       res.json(data);
     })
@@ -45,7 +43,6 @@ module.exports.add = (req, res, next) => {
   const newSalle = new Salle({
     Libelle: req.body.Libelle,
     etat: req.body.etat,
-    Formation: req.body.Formation,
     Centre_formation: req.body.Centre_formation,
     createdAt: new Date(),
   });
@@ -82,8 +79,7 @@ module.exports.updateFormationSalle = (req, res, next) => {
   const salle = Salle.findByIdAndUpdate(
     {_id: id},
     {
-      Formation: req.body.Formation,
-    },
+      },
     {new: true}
   )
     .then((data) => {

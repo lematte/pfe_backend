@@ -21,6 +21,7 @@ var evaluationRouter = require('./routes/evaluation')
 var salleRouter= require('./routes/salle')
 var contratformationRouter = require('./routes/Contrat_formation')
 var contratformateurRouter = require('./routes/contrat_formateur')
+var categoriesRouter = require('./routes/categories')
 //Instancier le serveur
 var app = express();
 
@@ -30,6 +31,8 @@ app.use(bodyParser.json());
 
 
 app.use(cors());
+app.use(express.static('./public'));
+app.use('/uploads', express.static('uploads'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -70,8 +73,12 @@ app.use('/formations', formationRouter);
 app.use('/certificats', certificatRouter);
 app.use('/evaluations', evaluationRouter);
 app.use('/salles',salleRouter)
+
 app.use('/contrat_formations',contratformationRouter)
 app.use('/contrat_formateurs',contratformateurRouter)
+app.use('/categories',categoriesRouter)
+
+
 
 
 
@@ -90,9 +97,11 @@ mongoose.connect(process.env.DB_CONNECTION,
   console.error('Error connecting to Mongo', err);
 });
 
-// catch 404 and forward to error handler
+// Page not found 404 
 app.use(function(req, res, next) {
-  next(createError(404));
+  res.status(404).json({
+    errors : "page not found"
+  })
 });
 
 // error handler

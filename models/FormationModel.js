@@ -5,9 +5,13 @@ const FormationSchema = mongoose.Schema({
         type : String,
         required:true
     },
+    Image: {
+        type : String,
+        //required:true
+    },
     Durrée: {
         type : String,
-        required:true
+        //required:true
     },
     Type: {
         type : String,
@@ -30,6 +34,10 @@ const FormationSchema = mongoose.Schema({
         type : Number,
         required:true
     },
+    Statut: {
+        type : String,
+        //required:true
+    },
     Formateur : {
         type:mongoose.Schema.Types.ObjectId,
         ref:'Formateur'
@@ -37,6 +45,10 @@ const FormationSchema = mongoose.Schema({
     Centre_formation : {
         type:mongoose.Schema.Types.ObjectId,
         ref:'Centre_formation'
+    },
+    idSalle : {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Salle'
     },
     Examen:{
         type:mongoose.Schema.Types.ObjectId,

@@ -40,6 +40,24 @@ module.exports.getByIdUser = async (req, res, next) => {
   }
 };
 
+module.exports.getBy = async (req, res, next) => {
+  const formateurs = await Formateur.find({
+    $or: [
+      {Prenom: {$regex: req.params.Prenom, $options: 'i'}},
+     // {Nom: {$regex: req.params.Nom, $options: 'i'}},
+    ],
+  })
+  .populate('User')
+    .then((data) => {
+      res.json(data);
+      data.User;
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
+
 module.exports.update = (req, res, next) => {
   const id = req.params.id;
   const formateur = Formateur.findByIdAndUpdate(

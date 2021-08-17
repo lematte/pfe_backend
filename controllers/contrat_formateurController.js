@@ -22,6 +22,20 @@ module.exports.getById = (req, res, next) =>
     })
 }
 
+module.exports.getByIdCenter = async (req, res, next) => {
+    try {
+      const contratformateur = await Contrat_formateur.find({
+        idCentre_formation: req.params.id,
+        isVisible: 'true',
+      }).sort({createdAt : -1})
+        .populate('idCentre_formation')
+        .populate('idFormateur')
+      res.status(200).json(contratformateur);
+    } catch (err) {
+      res.status(404).json({message: error.message});
+    }
+  };
+
 module.exports.add =( req , res , next ) => 
 {
     const newContrat_formateur = new Contrat_formateur({

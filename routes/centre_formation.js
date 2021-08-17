@@ -3,7 +3,8 @@ var router = express.Router();
 const CentreformationController = require('../controllers/centre_formationController')
 
 router.get('/',CentreformationController.getAll);
-router.get('/getBy', CentreformationController.getBy);
+router.get('/getBy/:Nom_centre', CentreformationController.getBy);
+//router.get('/getVille/:Ville', CentreformationController.getVille)
 router.get('/getByIdUser/:id', CentreformationController.getByIdUser);
 router.get('/:id', CentreformationController.getById)
 router.put('/:id/update', CentreformationController.update)

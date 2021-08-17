@@ -29,10 +29,29 @@ module.exports.getByIdUser = async (req, res, next) => {
 module.exports.getBy = async (req, res, next) => {
   const centre = await Centreformation.find({
     $or: [
-      {Nom_centre: {$regex: req.body.Nom_centre, $options: 'i'}},
-      {Code_postal: {$regex: req.body.Code_postal, $options: 'i'}},
+      {Nom_centre: {$regex: req.params.Nom_centre, $options: 'i'}},
+     // {Code_postal: {$regex: req.body.Code_postal, $options: 'i'}},
     ],
   })
+  .populate('User')
+    .then((data) => {
+      res.json(data);
+      data.User;
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
+module.exports.getVille = async (req, res, next) => {
+  const formation = await Centreformation.find({
+      isVisible : "true",
+      role: "centre_formation",
+    $or: [
+      {Ville : {$regex: req.params.User.Ville, $options: 'i'}},
+    ],
+  })
+  .populate('User')
     .then((data) => {
       res.json(data);
       data.User;
@@ -60,8 +79,8 @@ module.exports.update = (req, res, next) => {
     {
       Nom_centre: req.body.Nom_centre,
       Code_postal: req.body.Code_postal,
-      Latitude: req.body.Latitude,
-      Longitude: req.body.Longitude,
+     // Latitude: req.body.Latitude,
+     // Longitude: req.body.Longitude,
       Document_Juridique: req.body.Document_Juridique,
     },
     {new: true}
@@ -73,7 +92,7 @@ module.exports.update = (req, res, next) => {
         {_id: idu},
         {
           Email: req.body.Email,
-          Password: bcrypt.hashSync(req.body.Password, 8),
+          //Password: bcrypt.hashSync(req.body.Password, 8),
           Téléphone: req.body.Téléphone,
           IDcardnumber: req.body.IDcardnumber,
           Pays: req.body.Pays,
