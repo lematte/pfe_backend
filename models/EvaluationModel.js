@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
-const deepPopulate = require('mongoose-deep-populate')(mongoose);
-const findVisible = require('./findVisible');
 
 const EvaluationSchema = mongoose.Schema({
-    Libelle: {
-        type : String,
+    Note: {
+        type : Number,
         required:true
     },
     Formation : {
@@ -24,22 +22,5 @@ const EvaluationSchema = mongoose.Schema({
     }
 
 })
-const population = [{
-    path: 'Formation',
-    match : {isVisible: true}
-},{
-    path: 'Candidat',
-    match : {isVisible: true}
-}
-]
 
-
-EvaluationSchema.pre('find', findVisible(population));
-EvaluationSchema.pre('findOne', findVisible(population));
-EvaluationSchema.pre('findOneAndUpdate', findVisible());
-EvaluationSchema.pre('count', findVisible());
-EvaluationSchema.pre('countDocuments', findVisible());
-
-
-EvaluationSchema.plugin(deepPopulate,{})
 module.exports = mongoose.model('Evaluation',EvaluationSchema)

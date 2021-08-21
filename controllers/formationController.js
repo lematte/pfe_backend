@@ -9,6 +9,7 @@ module.exports.getAll = async (req, res, next) => {
     .populate("Centre_formation")
     .populate("Examen")
     .populate("idSalle")
+    .populate("Categories")
     .then((data) => {
       res.json(data);
     })
@@ -23,6 +24,7 @@ module.exports.getById = (req, res, next) => {
     .populate("Centre_formation")
     .populate("Examen")
     .populate("idSalle")
+    .populate("Categories")
     .then((data) => {
       res.json(data);
     })
@@ -41,7 +43,8 @@ module.exports.getByIdCentre = async (req, res, next) => {
       .populate("Formateur")
       .populate("Centre_formation")
       .populate("Examen")
-      .populate("idSalle");
+      .populate("idSalle")
+      .populate("Categories")
     res.status(200).json(formation);
   } catch (err) {
     res.status(404).json({ message: error.message });

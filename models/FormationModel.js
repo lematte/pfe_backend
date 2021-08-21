@@ -46,6 +46,10 @@ const FormationSchema = mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Centre_formation'
     },
+    Categories : {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Categories'
+    },
     idSalle : {
         type:mongoose.Schema.Types.ObjectId,
         ref:'Salle'
