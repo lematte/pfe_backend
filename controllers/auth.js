@@ -24,16 +24,14 @@ module.exports.signup = async ( req , res , next ) => {
 
     //Simple validation
     if( !Email ||!Password||!role) {
-        return res.status(400).json({ 'error' : 'Please enter all fields'}) 
+        return res.status(400).json('Please enter all fields') 
     }
     //mail regex
     Users.findOne({Email}).exec(async (error, user) => {
         if(user)
-        return res.status(400).json({ error:"User already exists"})
+        return res.status(400).json("User already exists")
         if(Password.length<6)
-        return res.status(400).json({
-            msg:"Le mot de passe comporte au moins 6 caractères."
-        }) 
+        return res.status(400).json("Le mot de passe comporte au moins 6 caractères.") 
         const hashedPassword = await bcrypt.hash(req.body.Password, (10))      // Cryptage du mot de passe
         const newuser = new Users({
             Email,
@@ -66,6 +64,7 @@ module.exports.signup = async ( req , res , next ) => {
                     res.status(200).json(data)
                 }).catch(err=>{
                     res.json(err)
+                    res.status(400).json("Internal Server error Occured");
                 })
             }else
             {
@@ -84,6 +83,7 @@ module.exports.signup = async ( req , res , next ) => {
                         res.status(200).json(data)
                     }).catch(err=>{
                         res.json(err)
+                        res.status(400).json("Internal Server error Occured");
                     })
                 }else
                 {
@@ -102,6 +102,7 @@ module.exports.signup = async ( req , res , next ) => {
                                 res.status(200).json(data)
                         }).catch(err=>{
                             res.json(err)
+                            res.status(400).json("Internal Server error Occured");
                         })
                     }else
                     {
@@ -134,7 +135,8 @@ module.exports.signin = async(req, res) => {
     try {
         const { Email, Password} = req.body
         if (!Email || !Password){
-            return res.status(400).json({ 'error' : 'Please enter all fields'}) 
+            return res.status(400).json( 'Please enter all fields') 
+            
         }
         const user = await Users.findOne({Email })
         if (user) {
@@ -147,9 +149,8 @@ module.exports.signin = async(req, res) => {
                     process.env.ACCESS_TOKEN_SECRET, 
                     { expiresIn : 86400 /* expires in 24 hours*/}, (err,token)=>{                  
                     if(err){
-                        res.json({
-                            message:"username or password not valid/correct"
-                        })
+                      
+                        res.status(400).json("username or password not valid/correct.");
                     }
                     const { _id , Email , role} = user;
                     res.cookie('token',token , { expiresIn : 86400})
@@ -171,18 +172,18 @@ module.exports.signin = async(req, res) => {
                     { expiresIn: '6h' });
                     resolve(tokens);*/
 
-                //res.send("Auth Successful");
+                //res.json("Auth Successful");
             } else {
-              res.status(400).send("Wrong email or password.");
+              res.status(400).json("Wrong email or password.");
             }
         } 
         else {
-        res.status(400).send("Wrong username or password.");
+        res.status(400).json("Wrong username or password.");
         }
     }
     catch(error){
         console.log(error);
-    res.status(400).send("Internal Server error Occured");
+    res.status(400).json("Internal Server error Occured");
     }
 } 
 
