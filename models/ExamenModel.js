@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const deepPopulate = require('mongoose-deep-populate')(mongoose);
-const findVisible = require('./findVisible');
+
 
 const ExamenSchema = mongoose.Schema({
     Libelle: { 
@@ -20,6 +19,5 @@ const ExamenSchema = mongoose.Schema({
     }
 
 })
-const population = []
 
 module.exports = mongoose.model('Examen',ExamenSchema)

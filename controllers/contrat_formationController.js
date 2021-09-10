@@ -17,6 +17,8 @@ module.exports.getAll = async (req, res, next) =>
 module.exports.getById = (req, res, next) =>
 {
     Contratformation.findById({ _id : req.params.id })
+    .populate('Formation')
+    .populate('Candidat')
     .then(data=> {
         res.json(data)
     }).catch(err=>{
@@ -29,6 +31,7 @@ module.exports.add =(req, res ,next) =>
     const newContratformation = new Contratformation({
         Libelle : req.body.Libelle,
         Contrat : req.body.Contrat,
+        etat: req.body.etat,
         Formation: req.body.Formation,
         Candidat: req.body.Candidat,
         createdAt : new Date()
@@ -61,9 +64,12 @@ module.exports.update = (req, res, next) =>
     const contratformation = Contratformation.findByIdAndUpdate( {_id : id},
     {
         Libelle : req.body.Libelle,
+        etat: req.body.etat,
         Contrat : req.body.Contrat
     }, 
     { new: true })
+    .populate('Formation')
+    .populate('Candidat')
     .then(data=> {
         res.json(data)
     }).catch(err=>{
@@ -78,6 +84,8 @@ module.exports.delete= (req, res, next)=> {
         isVisible : false
     }, 
     { new: true })
+    .populate('Formation')
+    .populate('Candidat')
     .then(data=> {
         res.json(data)
     }).catch(err=>{

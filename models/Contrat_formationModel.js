@@ -1,8 +1,4 @@
 const mongoose = require('mongoose');
-/*
-const deepPopulate = require('mongoose-deep-populate')(mongoose);
-const findVisible = require('./findVisible');
-*/
 const ContratformationSchema = mongoose.Schema({
     Libelle: {
         type : String,
@@ -10,7 +6,12 @@ const ContratformationSchema = mongoose.Schema({
     },
     Contrat: {
         type : String,
-        required:true
+      //  required:true
+    },
+    etat:{
+        type : String,
+        required:true,
+        enum:["n'est pas abonné", "en attent", "ok", "refusé"]
     },
     Formation :{
         type:mongoose.Schema.Types.ObjectId,
@@ -28,23 +29,4 @@ const ContratformationSchema = mongoose.Schema({
         type:Date
     }
 })
-/*
-const population = 
-[{
-    path: 'Formation',
-    match : {isVisible: true}
-},
-{
-    path: 'Candidat',
-    match : {isVisible: true}
-}]
-
-ContratformationSchema.pre('find', findVisible(population));
-ContratformationSchema.pre('findOne', findVisible(population));
-ContratformationSchema.pre('findOneAndUpdate', findVisible());
-ContratformationSchema.pre('count', findVisible());
-ContratformationSchema.pre('countDocuments', findVisible());
-
-ContratformationSchema.plugin(deepPopulate,{})
-*/
 module.exports = mongoose.model('Contratformation',ContratformationSchema)

@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const deepPopulate = require('mongoose-deep-populate')(mongoose);
-const findVisible = require('./findVisible');
 
 const ContratformateurSchema = mongoose.Schema({
     Libelle : {
@@ -27,22 +25,4 @@ const ContratformateurSchema = mongoose.Schema({
         type:Date
     }
 })
-const population = [
-    {
-        path: 'idFormateur',
-        match : {isVisible: true}
-    },
-    {
-        path: 'idCentre_formation',
-        match : {isVisible: true}
-    }
-]
-
-ContratformateurSchema.pre('find', findVisible(population));
-ContratformateurSchema.pre('findOne', findVisible(population));
-ContratformateurSchema.pre('findOneAndUpdate', findVisible());
-ContratformateurSchema.pre('count', findVisible());
-ContratformateurSchema.pre('countDocuments', findVisible());
-
-ContratformateurSchema.plugin(deepPopulate,{})
 module.exports = mongoose.model('Contrat_formateur',ContratformateurSchema)
