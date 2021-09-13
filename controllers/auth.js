@@ -15,7 +15,6 @@ let transporter = nodemailer.createTransport(
       api_key:"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",
     },
   })
- //  transporter = nodemailer.createTransport(transport[, defaults])
 );
 //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
 module.exports.signup = async (req, res, next) => {
