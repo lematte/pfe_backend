@@ -26,6 +26,11 @@ const FormationSchema = mongoose.Schema({
         type : String,
         //required:true
     },
+    Statut:{
+        type : String,
+        required:true,
+        enum:["active","inactive"]
+    },
     Description: {
         type : String,
         //required:true
@@ -34,7 +39,7 @@ const FormationSchema = mongoose.Schema({
         type : Number,
         required:true
     },
-    Statut: {
+    Contrat: {
         type : String,
         //required:true
     },

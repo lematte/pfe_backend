@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
 
     filename: function (req, file, cb) { 
         console.log(file)
-        cb(null, 'photo' + '-' + Date.now() + path.extname(file.originalname));
+        cb(null, 'Image' + '-' + Date.now() + path.extname(file.originalname));
     }
 });
 
@@ -21,5 +21,6 @@ let upload = multer({
     fileFilter: fileFilter,
 });
 
-module.exports = upload.single('Photo')
+module.exports = upload.single('Image')
+
 

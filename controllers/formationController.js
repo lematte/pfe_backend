@@ -89,12 +89,17 @@ module.exports.getByName = async (req, res, next) => {
 };
 
 module.exports.add = (req, res, next) => {
+  //Simple validation
+ /* if (!req.body.Libelle || !req.body.Type || !req.body.Statut ||req.body.Prix) {
+    return res.status(400).json("Please enter fields");
+  }*/
   const newFormation = new Formation({
     Libelle: req.body.Libelle,
     Durrée: req.body.Durrée,
     Type: req.body.Type,
     Date: req.body.Date,
     Heure: req.body.Heure,
+    Statut: req.body.Statut,
     Description: req.body.Description,
     Prix: req.body.Prix,
     Formateur: req.body.Formateur,
@@ -108,6 +113,7 @@ module.exports.add = (req, res, next) => {
     .save()
     .then((data) => {
       res.json(data);
+      console.log(data.idSalle)
     })
     .catch((err) => {
       res.json(err);
@@ -125,6 +131,7 @@ module.exports.update = (req, res, next) => {
       Date: req.body.Date,
       Heure: req.body.Heure,
       Description: req.body.Description,
+      Statut: req.body.Statut,
       Prix: req.body.Prix,
       Formateur: req.body.Formateur,
       idSalle: req.body.idSalle,
@@ -158,3 +165,30 @@ module.exports.delete = async (req, res, next) => {
     });
 };
 
+module.exports.uploadImageF = async (req, res, next) => {
+  const id = req.params.id;
+  const data = {
+    Image: req.file.path,
+  };
+  const formation = Formation.findByIdAndUpdate({ _id: id }, data, { new: true })
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
+module.exports.uploadContratF = async (req, res, next) => {
+  const id = req.params.id;
+  const data = {
+    Contrat: req.file.path,
+  };
+  const formation = Formation.findByIdAndUpdate({ _id: id }, data, { new: true })
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};

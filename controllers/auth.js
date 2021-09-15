@@ -5,17 +5,18 @@ const Admin = require("../models/AdminModel");
 const Candidat = require("../models/CandidatModel");
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
+var smtpTransport = require('nodemailer-smtp-transport');
 
 var bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-let transporter = nodemailer.createTransport(
+/*let transporter = nodemailer.createTransport(
     sendgridTransport({
     auth: {
       api_key:"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",
     },
   })
-);
+);*/
 //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
 module.exports.signup = async (req, res, next) => {
   try {
@@ -136,12 +137,40 @@ module.exports.signup = async (req, res, next) => {
           }
         }
         console.log(data.Email);
-        transporter.sendMail({
+        /*transporter.sendMail({
             to: data.Email,
             from: "lematteAhmed@gmail.com",
             subject: "signup success",
             html: "<h1>welcome to Taining4All</h1>",
-          });
+          });*/
+          let smtpTransport  = nodemailer.createTransport({
+    service:'gmail',
+    host: 'smtp.gmail.com',// hostname
+    port: 587, // port for secure SMTP
+    secure: false,
+    requireTLS: true,
+    tls: {
+      ciphers:'SSLv3'
+    },
+    auth:{
+      user:'training4all2021@gmail.com',
+      pass:'26763535'
+    }
+  });
+  let mailOptions={
+    from:'training4all2021@gmail.com',
+    to:data.Email,
+    subject: `signup success`,
+    html:`<h1>welcome to Taining4All</h1>`
+  };
+  smtpTransport.sendMail(mailOptions,function(error,response){
+    if(error){
+      res.send(error)
+    }else{
+      res.send("Success")
+    }
+  })
+  smtpTransport.close()
       });
     });
   } catch {

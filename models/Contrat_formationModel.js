@@ -15,10 +15,13 @@ const ContratformationSchema = mongoose.Schema({
     },
     Formation :{
         type:mongoose.Schema.Types.ObjectId,
+        required:true,
         ref:'Formation'
+
     },
     Candidat:{
         type:mongoose.Schema.Types.ObjectId,
+        required:true,
         ref:'Candidat'
     },
     isVisible : {

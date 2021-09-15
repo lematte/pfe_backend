@@ -1,16 +1,10 @@
 const Contratformation = require('../models/Contrat_formationModel')
 
 const nodemailer = require("nodemailer");
-const sendgridTransport = require("nodemailer-sendgrid-transport");
-const Candidat = require('../models/CandidatModel');
+//const sendgridTransport = require("nodemailer-sendgrid-transport");
+//var xoauth2 = require('xoauth2');
+//var smtpTransport = require('nodemailer-smtp-transport');
 
-let transporter = nodemailer.createTransport(
-  sendgridTransport({
-  auth: {
-    api_key:"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",
-  },
-})
-);
 
 module.exports.getAll = async (req, res, next) => 
 {
@@ -132,34 +126,77 @@ module.exports.getByEtat = async (req, res, next) => {
       .catch((err) => {
         res.json(err);
       });
+};
+
+module.exports.testCandidat = async (req, res, next) => {
+  const contratformation = await Contratformation.find({
+      Formation: req.params.id,
+      isVisible: 'true',
+      Candidat: req.params.Candidat
+  })
+  .sort({createdAt : -1})
+  .populate('Candidat')
+  .populate('Formation')
+  .then((data) => {
+    res.json(data);
+    data.User;
+  })
+  .catch((err) => {
+    res.json(err);
+  });
+};
+
+module.exports.send = (req, res, next) => 
+{
+  const Email =req.body.Email
+  //var from = req.body.from;
+  let smtpTransport  = nodemailer.createTransport({
+    service:'gmail',
+    host: 'smtp.gmail.com',// hostname
+    port: 587, // port for secure SMTP
+    secure: false,
+    requireTLS: true,
+    tls: {
+      ciphers:'SSLv3'
+    },
+    auth:{
+      user:'training4all2021@gmail.com',
+      pass:'26763535'
+    }
+  });
+  let mailOptions={
+    from:'training4all2021@gmail.com',
+    to:Email,
+    subject: `Réponse`,
+    html:`<h3> Informations </h3>`
   };
-  
+  smtpTransport.sendMail(mailOptions,function(error,response){
+    if(error){
+      res.send(error)
+    }else{
+      res.send("Success")
+    }
+  })
+  smtpTransport.close()
+}
+
 module.exports.update = (req, res, next) => 
 {
     const id = req.params.id;
-    const contratformation = Contratformation.findByIdAndUpdate( {_id : id},
+    const Email =req.body.Email
+    const contratformation = Contratformation.findByIdAndUpdate({_id : id},
     {
-        //Libelle : req.body.Libelle,
-        etat: req.body.etat,
-       // Contrat : req.body.Contrat
+      etat: req.body.etat,
     }, 
     { new: true })
     .populate('Formation')
     .populate('Candidat')
     .then(data=> {
         res.json(data)
-        console.log(data.Email);
-        transporter.sendMail({
-            to: data.Candidat.User.Email,
-            from: "lematteAhmed@gmail.com",
-            subject: "signup success",
-            html: "<h1>welcome to Taining4All</h1>",
-          });
     }).catch(err=>{
         res.json(err)
     })
 }
-
 module.exports.delete= (req, res, next)=> {
     const id = req.params.id;
     const contratformation = Contratformation.findByIdAndUpdate({_id : id},
