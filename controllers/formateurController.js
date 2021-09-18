@@ -123,3 +123,56 @@ module.exports.delete = (req, res, next) => {
       res.json(err);
     });
 };
+
+
+module.exports.getByNom= async (req, res, next) => {
+  const formateurs = await Formateur.find({
+    isVisible : "true",
+    $or: [
+      {Nom: {$regex: req.params.Nom, $options: 'i'}},
+    ],
+  })
+  .populate('User')
+  .then((data) => {
+    res.json(data);
+    data.User;
+  })
+  .catch((err) => {
+    res.json(err);
+  });
+};
+
+module.exports.getByEtudes_effectuees= async (req, res, next) => {
+  const formateurs = await Formateur.find({
+    isVisible : "true",
+    $or: [
+      {Etudes_effectuees: {$regex: req.params.Etudes_effectuees, $options: 'i'}},
+    ],
+  })
+  .populate('User')
+  .then((data) => {
+    res.json(data);
+    data.User;
+  })
+  .catch((err) => {
+    res.json(err);
+  });
+};
+
+
+module.exports.getByExperiences= async (req, res, next) => {
+  const formateurs = await Formateur.find({
+    isVisible : "true",
+    $or: [
+      {Expériences: {$regex: req.params.Experiences, $options: 'i'}},
+    ],
+  })
+  .populate('User')
+  .then((data) => {
+    res.json(data);
+    data.User;
+  })
+  .catch((err) => {
+    res.json(err);
+  });
+};

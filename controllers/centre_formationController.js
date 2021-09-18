@@ -72,6 +72,24 @@ module.exports.getById = (req, res, next) => {
     });
 };
 
+module.exports.getByCode_postal = async (req, res, next) => {
+  const formation = await Centreformation.find({
+      isVisible : "true",
+      $or: [
+        {Code_postal : {$regex: req.params.Code_postal, $options: 'i'}},
+      ],
+  })
+  .populate('User')
+  .then((data) => {
+    res.json(data);
+  })
+  .catch((err) => {
+    res.json(err);
+  });
+};
+
+
+
 module.exports.update = (req, res, next) => {
   const id = req.params.id;
   const centre = Centreformation.findByIdAndUpdate(
@@ -79,8 +97,8 @@ module.exports.update = (req, res, next) => {
     {
       Nom_centre: req.body.Nom_centre,
       Code_postal: req.body.Code_postal,
-     // Latitude: req.body.Latitude,
-     // Longitude: req.body.Longitude,
+      Latitude: req.body.Latitude,
+      Longitude: req.body.Longitude,
       Document_Juridique: req.body.Document_Juridique,
     },
     {new: true}
@@ -133,6 +151,21 @@ module.exports.deletecentre = (req, res, next) => {
       ).then((data) => {
         res.json('done');
       });
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
+
+module.exports.uploadDocument_Juridique = async (req, res, next) => {
+  const id = req.params.id;
+  const data = {
+    Document_Juridique: req.file.path,
+  };
+  const formation = Centreformation.findByIdAndUpdate({ _id: id }, data, { new: true })
+    .then((data) => {
+      res.json(data);
     })
     .catch((err) => {
       res.json(err);
