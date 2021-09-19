@@ -33,11 +33,11 @@ module.exports.signup = async (req, res, next) => {
 
     //Simple validation
     if (!Email || !Password || !role) {
-      return res.status(400).json("Please enter all fields");
+      return res.status(400).json("Veuillez saisir tous les champs");
     }
     //mail regex
     Users.findOne({ Email ,  isVisible: 'true' }).exec(async (error, user) => {
-      if (user) return res.status(400).json("User already exists");
+      if (user) return res.status(400).json("L'utilisateur existe déjà");
       if (Password.length < 6)
         return res
           .status(400)
@@ -174,7 +174,7 @@ module.exports.signup = async (req, res, next) => {
       });
     });
   } catch {
-    res.status(400).send();
+    res.status(400).json();
   }
 };
 
@@ -182,7 +182,7 @@ module.exports.signin = async (req, res) => {
   try {
     const { Email, Password } = req.body;
     if (!Email || !Password) {
-      return res.status(400).json("Please enter all fields");
+      return res.status(400).json("Veuillez saisir tous les champs");
     }
     const user = await Users.findOne({ Email });
     if (user) {
@@ -196,7 +196,7 @@ module.exports.signin = async (req, res) => {
           { expiresIn: 86400 /* expires in 24 hours*/ },
           (err, token) => {
             if (err) {
-              res.status(400).json("username or password not valid/correct.");
+              res.status(400).json("E-mail ou mot de passe erroné.");
             }
             const { _id, Email, role } = user;
             res.cookie("token", token, { expiresIn: 86400 });
@@ -220,10 +220,10 @@ module.exports.signin = async (req, res) => {
 
         //res.json("Auth Successful");
       } else {
-        res.status(400).json("Wrong email or password.");
+        res.status(400).json("E-mail ou mot de passe erroné.");
       }
     } else {
-      res.status(400).json("Wrong username or password.");
+      res.status(400).json("E-mail ou mot de passe erroné.");
     }
   } catch (error) {
     console.log(error);

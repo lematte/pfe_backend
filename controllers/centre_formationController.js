@@ -63,13 +63,13 @@ module.exports.getVille = async (req, res, next) => {
 
 module.exports.getById = (req, res, next) => {
   Centreformation.findById({_id: req.params.id})
-    .populate('User')
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
+  .populate('User')
+  .then((data) => {
+    res.json(data);
+  })
+  .catch((err) => {
+    res.json(err);
+  });
 };
 
 module.exports.getByCode_postal = async (req, res, next) => {
