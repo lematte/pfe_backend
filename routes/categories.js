@@ -3,6 +3,7 @@ var router = express.Router();
 const CategoriesController = require('../controllers/categoriesController')
     
 router.get('/', CategoriesController.getAll);
+router.get('/:id', CategoriesController.getById);
 router.post('/add', CategoriesController.add )
 router.get('/:type', CategoriesController.getByType)
 router.get('/:libelle', CategoriesController.getBy )

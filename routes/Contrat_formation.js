@@ -5,6 +5,7 @@ const contratformationController = require('../controllers/contrat_formationCont
 router.get('/',contratformationController.getAll);
 router.get('/:id', contratformationController.getById )
 router.get('/getByIdFormation/:id', contratformationController.getByIdFormation)
+router.get('/getByIdCandidat/:id', contratformationController.getByIdCandidat)
 router.get('/getByCandidat/:id/:Candidat', contratformationController.testCandidat);
 
 router.get('/getBy/:id/:etat', contratformationController.getByEtat);

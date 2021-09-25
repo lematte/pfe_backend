@@ -80,6 +80,15 @@ module.exports.getBy = async (req, res, next) => {
     });
 };
 
+module.exports.getById = (req, res, next) => {
+  Categories.findById({_id: req.params.id})
+  .then((data) => {
+    res.json(data);
+  })
+  .catch((err) => {
+    res.json(err);
+  });
+};
 
 module.exports.getByType = async (req, res, next) => {
   const categorie = await Categories.find({

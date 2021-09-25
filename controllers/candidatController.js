@@ -72,31 +72,32 @@ module.exports.getByIdUser = async (req, res, next) => {
     }).catch(err=>{
         res.json(err)
     })
-}*/
-module.exports.update = async (req, res, next) => {
+} */
+
+module.exports.update = (req, res, next) => {
   const id = req.params.id;
-  const candidat = await Candidat.findByIdAndUpdate(
+  const centre = Candidat.findByIdAndUpdate(
     {_id: id},
     {
-      Prenom: req.body.prenom,
-      Nom: req.body.nom,
-      Genre: req.body.genre,
+      Prenom: req.body.Prenom,
+      Nom: req.body.Nom,
+      Genre: req.body.Genre,
     },
     {new: true}
-  ).then((Data) => {
-    if (Data) {
-      res.json(Data.populate('User'));
-      const idu = Data.User;
+  )
+    .then((data) => {
+      res.json(data);
+      const idu = data.User;
       const user = Users.findByIdAndUpdate(
         {_id: idu},
         {
-          Email: req.body.email,
-          // Password: bcrypt.hashSync(req.body.password, 8),
-          Téléphone: req.body.téléphone,
-          IDcardnumber: req.body.idcardnumber,
-          Pays: req.body.pays,
-          Ville: req.body.ville,
-          //Photo: req.body.photo
+          Email: req.body.Email,
+          //Password: bcrypt.hashSync(req.body.Password, 8),
+          Téléphone: req.body.Téléphone,
+          IDcardnumber: req.body.IDcardnumber,
+          Pays: req.body.Pays,
+          Ville: req.body.Ville,
+          //Photo: req.body.Photo,
         },
         {new: true}
       )
@@ -106,12 +107,12 @@ module.exports.update = async (req, res, next) => {
         .catch((err) => {
           res.json(err);
         });
-    } else res.json({status: 'error update user'});
-  });
-  /*   .catch((err) => {
+    })
+    .catch((err) => {
       res.json(err);
-    });*/
+    });
 };
+
 
 module.exports.updatePassword = async (req, res, next) => {
   const id = req.params.id;

@@ -51,6 +51,25 @@ module.exports.getByIdCentre = async (req, res, next) => {
   }
 };
 
+module.exports.getByCentreStatut = async (req, res, next) => {
+  try {
+    const formation = await Formation.find({
+      Centre_formation: req.params.id,
+      isVisible: "true",
+      Statut:req.params.Statut
+    })
+      .sort({ createdAt: -1 })
+      .populate("Formateur")
+      .populate("Centre_formation")
+      .populate("Examen")
+      .populate("idSalle")
+      .populate("Categories")
+    res.status(200).json(formation);
+  } catch (err) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
 module.exports.getByIdCategories = async (req, res, next) => {
   try {
     const formation = await Formation.find({
