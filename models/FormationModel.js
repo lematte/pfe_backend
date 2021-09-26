@@ -22,6 +22,10 @@ const FormationSchema = mongoose.Schema({
         type : String,
         //required:true
     },
+    Date_fin: {
+        type : String,
+        //required:true
+    },
     Heure: {
         type : String,
         //required:true
