@@ -7,7 +7,7 @@ module.exports.getAll = async (req, res, next) => {
     .sort({ createdAt: -1 })
     .populate("Formateur")
     .populate("Centre_formation")
-    .populate("Examen")
+   // .populate("Examen")
     .populate("idSalle")
     .populate("Categories")
     .then((data) => {
@@ -22,7 +22,7 @@ module.exports.getById = (req, res, next) => {
   Formation.findById({ _id: req.params.id })
     .populate("Formateur")
     .populate("Centre_formation")
-    .populate("Examen")
+   // .populate("Examen")
     .populate("idSalle")
     .populate("Categories")
     .then((data) => {
@@ -42,7 +42,7 @@ module.exports.getByIdCentre = async (req, res, next) => {
       .sort({ createdAt: -1 })
       .populate("Formateur")
       .populate("Centre_formation")
-      .populate("Examen")
+     // .populate("Examen")
       .populate("idSalle")
       .populate("Categories")
     res.status(200).json(formation);
@@ -61,7 +61,7 @@ module.exports.getByCentreStatut = async (req, res, next) => {
       .sort({ createdAt: -1 })
       .populate("Formateur")
       .populate("Centre_formation")
-      .populate("Examen")
+    //  .populate("Examen")
       .populate("idSalle")
       .populate("Categories")
     res.status(200).json(formation);
@@ -79,7 +79,7 @@ module.exports.getByIdCategories = async (req, res, next) => {
       .sort({ createdAt: -1 })
       .populate("Formateur")
       .populate("Centre_formation")
-      .populate("Examen")
+     // .populate("Examen")
       .populate("idSalle")
       .populate("Categories")
     res.status(200).json(formation);
@@ -95,7 +95,7 @@ module.exports.getByName = async (req, res, next) => {
   })
     .populate("Formateur")
     .populate("Centre_formation")
-    .populate("Examen")
+    //.populate("Examen")
     .populate("idSalle")
     .populate("Categories")
     .then((data) => {
@@ -126,7 +126,7 @@ module.exports.add = (req, res, next) => {
     Centre_formation: req.body.Centre_formation,
     Categories: req.body.Categories,
     idSalle: req.body.idSalle,
-    Examen: req.body.Examen,
+   // Examen: req.body.Examen,
     createdAt: new Date(),
   });
   newFormation
@@ -157,7 +157,7 @@ module.exports.update = (req, res, next) => {
       Formateur: req.body.Formateur,
       idSalle: req.body.idSalle,
       Categories: req.body.Categories,
-      Examen: req.body.Examen
+     // Examen: req.body.Examen
     },
     { new: true }
   )

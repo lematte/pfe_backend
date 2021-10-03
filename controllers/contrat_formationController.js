@@ -140,7 +140,7 @@ module.exports.testCandidat = async (req, res, next) => {
   const contratformation = await Contratformation.find({
       Formation: req.params.id,
       isVisible: 'true',
-      Candidat: req.params.Candidat
+      Candidat: req.params.Candidat,
   })
   .sort({createdAt : -1})
   .populate('Candidat')

@@ -63,10 +63,10 @@ const FormationSchema = mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Salle'
     },
-    Examen:{
+   /* Examen:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Examen'
-    },
+    },*/
     isVisible : {
         type: Boolean , 
         default: true
