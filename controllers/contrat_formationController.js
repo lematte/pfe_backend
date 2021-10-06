@@ -59,6 +59,7 @@ module.exports.getByIdFormation = async (req, res, next) => {
   }
 };
 
+
 module.exports.getByIdCandidat = async (req, res, next) => {
   try {
     const contratformation = await Contratformation.find({
@@ -157,7 +158,7 @@ module.exports.testCandidat = async (req, res, next) => {
 module.exports.send = (req, res, next) => 
 {
   const Email =req.body.Email
-  //var from = req.body.from;
+  var fromation = req.body.fromation;
   let smtpTransport  = nodemailer.createTransport({
     service:'gmail',
     host: 'smtp.gmail.com',// hostname
@@ -176,7 +177,7 @@ module.exports.send = (req, res, next) =>
     from:'training4all2021@gmail.com',
     to:Email,
     subject: `Réponse`,
-    html:`<h3> Informations </h3>`
+    html:`<h3> Informations  ${fromation}</h3>`
   };
   smtpTransport.sendMail(mailOptions,function(error,response){
     if(error){

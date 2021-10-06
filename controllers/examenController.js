@@ -67,12 +67,12 @@ module.exports.update = (req, res, next) =>
     const id = req.params.id;
     const user =  Examen.findByIdAndUpdate( {_id : id},
     {
-        Libelle : req.body.Libelle,
-        Description : req.body.Description,
+       // Libelle : req.body.Libelle,
+       // Description : req.body.Description,
         Note: req.body.Note,
         Remarque:req.body.Remarque,
-        Formation: req.body.Formation,
-        Candidat: req.body.Candidat,
+       // Formation: req.body.Formation,
+       // Candidat: req.body.Candidat,
     }, 
     { new: true })
     .then(data=> {

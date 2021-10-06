@@ -19,11 +19,11 @@ const FormationSchema = mongoose.Schema({
         enum:["presentielle","en ligne"]
     },
     Date: {
-        type : String,
+        type : Date,
         //required:true
     },
     Date_fin: {
-        type : String,
+        type : Date,
         //required:true
     },
     Heure: {
