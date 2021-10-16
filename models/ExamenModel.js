@@ -14,6 +14,10 @@ const ExamenSchema = mongoose.Schema({
         type : String,
        // required:true
     },
+    Mention: {
+        type : String,
+      //  required:true
+    },
     Remarque:{
         type : String,
         // required:true

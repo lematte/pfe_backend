@@ -3,11 +3,16 @@ const mongoose = require('mongoose');
 const ContratformateurSchema = mongoose.Schema({
     Libelle : {
         type : String,
-        required:true
+       // required:true
     },
     Document : {
         type : String,
-        required:true
+        //required:true
+    },
+    etat:{
+        type : String,
+        required:true,
+        enum:["en attente", "acceptée", "refusée",  "retirée"]
     },
     idFormateur : {
         type:mongoose.Schema.Types.ObjectId,
@@ -18,7 +23,7 @@ const ContratformateurSchema = mongoose.Schema({
         ref:'Centre_formation'
     },
     isVisible : {
-        type: Boolean , 
+        type: Boolean, 
         default: true
     },
     createdAt : {

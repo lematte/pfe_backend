@@ -3,14 +3,23 @@ const mongoose = require('mongoose');
 const CertificatSchema = mongoose.Schema({
     Libelle: {
         type : String,
-        required:true
+      //  required:true
+    },
+    Signature: {
+        type : String,
+      //  required:true
     },
     Formation : {
         type:mongoose.Schema.Types.ObjectId,
         ref:'Formation'
     },
+    Candidat:{
+        type:mongoose.Schema.Types.ObjectId,
+        required:true,
+        ref:'Candidat'
+    },
     isVisible : {
-        type: Boolean , 
+        type: Boolean, 
         default: true
     },
     createdAt : {

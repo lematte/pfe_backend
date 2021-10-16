@@ -9,7 +9,7 @@ router.get('/getBy/:Prenom', formateurController.getBy);
 router.get('/getByNom/:Nom', formateurController.getByNom);
 router.get('/getByEtudes_effectuees/:Etudes_effectuees', formateurController.getByEtudes_effectuees);
 router.get('/getByExperiences/:Experiences', formateurController.getByExperiences);
-router.get('/getByIdUser', formateurController.getByIdUser);
+router.get('/getByIdUser/:id', formateurController.getByIdUser);
 router.put('/:id/update', formateurController.update)
 router.delete('/:id/delete', formateurController.delete)
 

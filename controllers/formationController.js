@@ -7,7 +7,7 @@ module.exports.getAll = async (req, res, next) => {
     .sort({ createdAt: -1 })
     .populate("Formateur")
     .populate("Centre_formation")
-   // .populate("Examen")
+    // .populate("Examen")
     .populate("idSalle")
     .populate("Categories")
     .then((data) => {
@@ -22,7 +22,7 @@ module.exports.getById = (req, res, next) => {
   Formation.findById({ _id: req.params.id })
     .populate("Formateur")
     .populate("Centre_formation")
-   // .populate("Examen")
+    // .populate("Examen")
     .populate("idSalle")
     .populate("Categories")
     .then((data) => {
@@ -42,7 +42,24 @@ module.exports.getByIdCentre = async (req, res, next) => {
       .sort({ createdAt: -1 })
       .populate("Formateur")
       .populate("Centre_formation")
-     // .populate("Examen")
+      //.populate("Examen")
+      .populate("idSalle")
+      .populate("Categories")
+    res.status(200).json(formation);
+  } catch (err) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+module.exports.getByIdFormateur = async (req, res, next) => {
+  try {
+    const formation = await Formation.find({
+      Formateur: req.params.id,
+      isVisible: "true",
+    })
+      .sort({ createdAt: -1 })
+      .populate("Formateur")
+      .populate("Centre_formation")
       .populate("idSalle")
       .populate("Categories")
     res.status(200).json(formation);
@@ -56,12 +73,12 @@ module.exports.getByCentreStatut = async (req, res, next) => {
     const formation = await Formation.find({
       Centre_formation: req.params.id,
       isVisible: "true",
-      Statut:req.params.Statut
+      Statut: req.params.Statut
     })
       .sort({ createdAt: -1 })
       .populate("Formateur")
       .populate("Centre_formation")
-    //  .populate("Examen")
+      //  .populate("Examen")
       .populate("idSalle")
       .populate("Categories")
     res.status(200).json(formation);
@@ -79,7 +96,7 @@ module.exports.getByIdCategories = async (req, res, next) => {
       .sort({ createdAt: -1 })
       .populate("Formateur")
       .populate("Centre_formation")
-     // .populate("Examen")
+      // .populate("Examen")
       .populate("idSalle")
       .populate("Categories")
     res.status(200).json(formation);
@@ -107,11 +124,31 @@ module.exports.getByName = async (req, res, next) => {
     });
 };
 
+module.exports.getByNameandIdFormateur = async (req, res, next) => {
+  const formation = await Formation.find({
+    isVisible: "true",
+    Formateur: req.params.id,
+    $or: [{ Libelle: { $regex: req.params.Libelle, $options: "i" } }],
+  })
+    .populate("Formateur")
+    .populate("Centre_formation")
+    //.populate("Examen")
+    .populate("idSalle")
+    .populate("Categories")
+    .then((data) => {
+      res.json(data);
+      data.User;
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
 module.exports.add = (req, res, next) => {
   //Simple validation
- /* if (!req.body.Libelle || !req.body.Type || !req.body.Statut ||req.body.Prix) {
-    return res.status(400).json("Please enter fields");
-  }*/
+  /* if (!req.body.Libelle || !req.body.Type || !req.body.Statut ||req.body.Prix) {
+     return res.status(400).json("Please enter fields");
+   }*/
   const newFormation = new Formation({
     Libelle: req.body.Libelle,
     Durrée: req.body.Durrée,
@@ -126,7 +163,7 @@ module.exports.add = (req, res, next) => {
     Centre_formation: req.body.Centre_formation,
     Categories: req.body.Categories,
     idSalle: req.body.idSalle,
-   // Examen: req.body.Examen,
+    // Examen: req.body.Examen,
     createdAt: new Date(),
   });
   newFormation
@@ -157,7 +194,7 @@ module.exports.update = (req, res, next) => {
       Formateur: req.body.Formateur,
       idSalle: req.body.idSalle,
       Categories: req.body.Categories,
-     // Examen: req.body.Examen
+      // Examen: req.body.Examen
     },
     { new: true }
   )
