@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const Contrat_formateurController = require('../controllers/contrat_formateurController')
+const Contrat_formateurController = require('../controllers/contratFormateurController')
 const uploadContrat = require('../middleware/contratFormation')
 
 router.get('/',Contrat_formateurController.getAll);
@@ -11,6 +11,7 @@ router.get('/:id', Contrat_formateurController.getById )
 router.put('/update/:id', Contrat_formateurController.update)
 router.delete('/delete/:id', Contrat_formateurController.delete)
 router.post('/uploadContrat/:id',uploadContrat, Contrat_formateurController.uploadContrat_formateur)
+router.get('/getBy/:etat', Contrat_formateurController.getByEtat);
 
 module.exports = router;
   

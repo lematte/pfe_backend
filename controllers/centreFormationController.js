@@ -1,4 +1,4 @@
-const Centreformation = require('../models/Centre-formationModel');
+const Centreformation = require('../models/CentreFormationModel');
 const Users = require('../models/UserModel');
 var bcrypt = require('bcrypt');
 
@@ -166,6 +166,24 @@ module.exports.uploadDocument_Juridique = async (req, res, next) => {
   const formation = Centreformation.findByIdAndUpdate({ _id: id }, data, { new: true })
     .then((data) => {
       res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
+
+module.exports.updateEtat = (req, res, next) => {
+  const id = req.params.id;
+  const centre = Centreformation.findByIdAndUpdate(
+    {_id: id},
+    {
+      statut: req.body.statut
+    },
+    {new: true}
+  )
+    .then((data) => {
+      res.json(data)
     })
     .catch((err) => {
       res.json(err);

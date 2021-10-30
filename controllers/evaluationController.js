@@ -75,6 +75,20 @@ module.exports.getByIdFormation = async (req, res, next) => {
   }
 };
 
+module.exports.getByIdCandidat = async (req, res, next) => {
+  try {
+    const evaluation = await Evaluation.find({
+      Candidat: req.params.id,
+      isVisible: "true",
+    })
+      .populate("Formation")
+      .populate("Candidat");
+    res.status(200).json(evaluation);
+  } catch (err) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
 module.exports.delete = (req, res, next) => {
   const id = req.params.id;
   const evaluation = Evaluation.findByIdAndUpdate(

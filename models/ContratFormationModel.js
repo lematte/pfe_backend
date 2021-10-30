@@ -11,7 +11,7 @@ const ContratformationSchema = mongoose.Schema({
     etat:{
         type : String,
         required:true,
-        enum:["n'est pas abonné", "en attente", "acceptée", "refusée"]
+        enum:[" désabonner", "en attente", "acceptée", "refusée"]
     },
     Formation :{
         type:mongoose.Schema.Types.ObjectId,

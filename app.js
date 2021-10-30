@@ -10,7 +10,7 @@ var cors = require('cors');
 
 var authRouter = require('./routes/auth.route');
 var usersRouter = require('./routes/users');
-var centreformationRouter = require('./routes/centre_formation');
+var centreformationRouter = require('./routes/centreFormation');
 var formateurRouter =require('./routes/formateur');
 var candidatRouter =require('./routes/candidat');
 var adminRouter =require('./routes/admin');
@@ -19,8 +19,8 @@ var formationRouter = require('./routes/formation')
 var certificatRouter = require('./routes/certificat')
 var evaluationRouter = require('./routes/evaluation')
 var salleRouter= require('./routes/salle')
-var contratformationRouter = require('./routes/Contrat_formation')
-var contratformateurRouter = require('./routes/contrat_formateur')
+var contratformationRouter = require('./routes/ContratFormation')
+var contratformateurRouter = require('./routes/contratFormateur')
 var categoriesRouter = require('./routes/categories')
 //Instancier le serveur
 var app = express();

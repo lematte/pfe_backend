@@ -1,5 +1,5 @@
 const Users = require("../models/UserModel");
-const Centreformation = require("../models/Centre-formationModel");
+const Centreformation = require("../models/CentreFormationModel");
 const Formateur = require("../models/FormateurModel");
 const Admin = require("../models/AdminModel");
 const Candidat = require("../models/CandidatModel");
@@ -36,7 +36,7 @@ module.exports.signup = async (req, res, next) => {
       return res.status(400).json("Veuillez saisir tous les champs");
     }
     //mail regex
-    Users.findOne({ Email ,  isVisible: 'true' }).exec(async (error, user) => {
+    Users.findOne({ Email, isVisible: 'true' }).exec(async (error, user) => {
       if (user) return res.status(400).json("L'utilisateur existe déjà");
       if (Password.length < 6)
         return res
@@ -55,43 +55,24 @@ module.exports.signup = async (req, res, next) => {
         createdAt: new Date(),
       });
       newuser.save()
-      .then((data) => {
-        console.log(data.role);
-        if (data.role == "centre_formation") {
-          //"admin","centre_formation", "candidat", "formateur"
-          const newcentre = new Centreformation({
-            Nom_centre: req.body.Nom_centre,
-            Code_postal: req.body.Code_postal,
-            Latitude: req.body.Latitude,
-            Longitude: req.body.Longitude,
-            Document_Juridique: req.body.Document_Juridique,
-            User: data._id,
-            //statut:req.body.statut,
-            createdAt: new Date(),
-          });
-          newcentre
-            .save()
-            .then((data) => {
-             // res.json({ message: "saved successfully" });
-              res.status(200).json(data);
-            })
-            .catch((err) => {
-              res.json(err);
-              res.status(400).json("Internal Server error Occured");
-            });
-        } else {
-          if (role == "formateur") {
-            const newFormateur = new Formateur({
-              Prenom: req.body.Prenom,
-              Nom: req.body.Nom,
-              Etudes_effectuees: req.body.Etudes_effectuees,
-              Expériences: req.body.Expériences,
+        .then((data) => {
+          console.log(data.role);
+          if (data.role == "centre_formation") {
+            //"admin","centre_formation", "candidat", "formateur"
+            const newcentre = new Centreformation({
+              Nom_centre: req.body.Nom_centre,
+              Code_postal: req.body.Code_postal,
+              Latitude: req.body.Latitude,
+              Longitude: req.body.Longitude,
+              Document_Juridique: req.body.Document_Juridique,
               User: data._id,
+              //statut:req.body.statut,
               createdAt: new Date(),
             });
-            newFormateur
+            newcentre
               .save()
               .then((data) => {
+                // res.json({ message: "saved successfully" });
                 res.status(200).json(data);
               })
               .catch((err) => {
@@ -99,15 +80,16 @@ module.exports.signup = async (req, res, next) => {
                 res.status(400).json("Internal Server error Occured");
               });
           } else {
-            if (role == "candidat") {
-              const newCandidat = new Candidat({
+            if (role == "formateur") {
+              const newFormateur = new Formateur({
                 Prenom: req.body.Prenom,
                 Nom: req.body.Nom,
-                Genre: req.body.Genre,
+                Etudes_effectuees: req.body.Etudes_effectuees,
+                Expériences: req.body.Expériences,
                 User: data._id,
                 createdAt: new Date(),
               });
-              newCandidat
+              newFormateur
                 .save()
                 .then((data) => {
                   res.status(200).json(data);
@@ -117,61 +99,79 @@ module.exports.signup = async (req, res, next) => {
                   res.status(400).json("Internal Server error Occured");
                 });
             } else {
-              if (role == "admin") {
-                const newAdmin = new Admin({
+              if (role == "candidat") {
+                const newCandidat = new Candidat({
                   Prenom: req.body.Prenom,
                   Nom: req.body.Nom,
+                  Genre: req.body.Genre,
                   User: data._id,
                   createdAt: new Date(),
                 });
-                newAdmin
+                newCandidat
                   .save()
                   .then((data) => {
                     res.status(200).json(data);
                   })
                   .catch((err) => {
                     res.json(err);
+                    res.status(400).json("Internal Server error Occured");
                   });
-              } else res.json("role n'exist pas ");
+              } else {
+                if (role == "admin") {
+                  const newAdmin = new Admin({
+                    Prenom: req.body.Prenom,
+                    Nom: req.body.Nom,
+                    User: data._id,
+                    createdAt: new Date(),
+                  });
+                  newAdmin
+                    .save()
+                    .then((data) => {
+                      res.status(200).json(data);
+                    })
+                    .catch((err) => {
+                      res.json(err);
+                    });
+                } else res.json("role n'exist pas ");
+              }
             }
           }
-        }
-        console.log(data.Email);
-        /*transporter.sendMail({
+          console.log(data.Email);
+          /*transporter.sendMail({
+              to: data.Email,
+              from: "lematteAhmed@gmail.com",
+              subject: "signup success",
+              html: "<h1>welcome to Taining4All</h1>",
+            });*/
+          let smtpTransport = nodemailer.createTransport({
+            service: 'gmail',
+            host: 'smtp.gmail.com',// hostname
+            port: 587, // port for secure SMTP
+            secure: false,
+            requireTLS: true,
+            tls: {
+              ciphers: 'SSLv3'
+            },
+            auth: {
+              user: 'training4all2021@gmail.com',
+              pass: '26763535'
+            }
+          });
+          let mailOptions = {
+            from: 'training4all2021@gmail.com',
             to: data.Email,
-            from: "lematteAhmed@gmail.com",
-            subject: "signup success",
-            html: "<h1>welcome to Taining4All</h1>",
-          });*/
-          let smtpTransport  = nodemailer.createTransport({
-    service:'gmail',
-    host: 'smtp.gmail.com',// hostname
-    port: 587, // port for secure SMTP
-    secure: false,
-    requireTLS: true,
-    tls: {
-      ciphers:'SSLv3'
-    },
-    auth:{
-      user:'training4all2021@gmail.com',
-      pass:'26763535'
-    }
-  });
-  let mailOptions={
-    from:'training4all2021@gmail.com',
-    to:data.Email,
-    subject: `signup success`,
-    html:`<h1>welcome to Taining4All</h1>`
-  };
-  smtpTransport.sendMail(mailOptions,function(error,response){
-    if(error){
-      res.send(error)
-    }else{
-      res.send("Success")
-    }
-  })
-  smtpTransport.close()
-      });
+            subject: `signup success`,
+            html: `<h1>welcome to Taining4All</h1>`
+          };
+          smtpTransport.sendMail(mailOptions, function (error, response) {
+            if (error) {
+              res.send(error)
+            } else {
+              res.send("Success")
+            }
+          })
+          smtpTransport.close()
+        });
     });
   } catch {
     res.status(400).json();

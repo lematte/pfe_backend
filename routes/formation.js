@@ -3,7 +3,6 @@ var router = express.Router();
 const formationController = require('../controllers/formationController')
 const uploadIFormation = require('../middleware/ImageFormation')
 const uploadContratFormation = require('../middleware/contratFormation')
-  
 
 
 router.get('/', formationController.getAll);
@@ -13,6 +12,7 @@ router.get('/getByNameAndIdFormateur/:id/:Libelle', formationController.getByNam
 router.get('/getByIdCategories/:id', formationController.getByIdCategories)
 router.get('/getByName/:Libelle', formationController.getByName)
 router.get('/getBy/:id/:Statut', formationController.getByCentreStatut)
+router.get('/getByStatut/:Statut', formationController.getByStatut)
 
 router.post('/add', formationController.add)
 router.get('/:id', formationController.getById)
