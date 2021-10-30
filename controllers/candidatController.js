@@ -29,7 +29,9 @@ module.exports.getById = (req, res, next) => {
 };
 
 module.exports.getByIdUser = async (req, res, next) => {
-  await Candidat.findOne({User: req.params.id})
+  await Candidat.findOne({
+    isVisible : "true",
+    User: req.params.id})
     .populate('User')
     .then((data) => {
       res.json(data);

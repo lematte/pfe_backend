@@ -16,7 +16,9 @@ module.exports.getAll = async (req, res, next) =>
 
 module.exports.getById = (req, res, next) =>
 {
-    Admin.findById({ _id : req.params.id })
+    Admin.findById({
+        isVisible : "true",
+        _id : req.params.id })
     .then(data=> {
         res.json(data)
     }).catch(err=>{
@@ -24,6 +26,20 @@ module.exports.getById = (req, res, next) =>
     })
 }
 
+
+module.exports.getByIdUser = async (req, res, next) => {
+    await Admin.findOne({
+        isVisible : "true",
+        User: req.params.id})
+      .populate('User')
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((err) => {
+        res.json(err);
+      });
+  };
+  
 
 module.exports.updateAdmin =async( req , res , next ) => 
 {
@@ -40,12 +56,12 @@ module.exports.updateAdmin =async( req , res , next ) =>
         const user =  Users.findByIdAndUpdate( {_id : idu},
         {
             Email : req.body.Email,
-            Password: bcrypt.hashSync(req.body.Password, 8),
+          //  Password: bcrypt.hashSync(req.body.Password, 8),
             Téléphone : req.body.Téléphone,
             IDcardnumber : req.body.IDcardnumber,
             Pays : req.body.Pays,
             Ville: req.body.Ville,
-            Photo : req.body.Photo,
+           // Photo : req.body.Photo,
             role : req.body.role
         }, 
         { new: true })
