@@ -91,6 +91,7 @@ module.exports.update = (req, res, next) => {
         },
         { new: true })
         .then(data => {
+            console.log(data)
             res.json(data)
         }).catch(err => {
             res.json(err)

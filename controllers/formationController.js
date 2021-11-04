@@ -18,6 +18,25 @@ module.exports.getAll = async (req, res, next) => {
     });
 };
 
+module.exports.getAllByStatut = async (req, res, next) => {
+  await Formation.find({
+    isVisible: "true",
+    Statut:"active"
+  })
+    .sort({ createdAt: -1 })
+    .populate("Formateur")
+    .populate("Centre_formation")
+    // .populate("Examen")
+    .populate("idSalle")
+    .populate("Categories")
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
 module.exports.getById = (req, res, next) => {
   Formation.findById({ _id: req.params.id })
     .populate("Formateur")
