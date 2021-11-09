@@ -57,16 +57,17 @@ module.exports.uploadImage = async (req, res, next) => {
 module.exports.updatePassword = async (req, res, next) => {
   const _id = req.params.id;
   const { Password, password } = req.body;
-  if (!Password || !password) {
+ /* if (!Password || !password) {
     return res.status(400).json({ error: "Please enter all fields" });
-  }
-  const user = await Users.findOne({ _id: _id });
+  }*/
+  const user = await Users.findOne({ _id });
+  console.log(user);
   if (user) {
     //  res.status(200).json(data)
     console.log(Password);
     const cmp = await bcrypt.compare(Password, user.Password);
     console.log(Password);
-    console.log(cmp);
+    console.log("cmp"+cmp);
     if (cmp) {
       console.log("OK");
       const hashedPassword = await bcrypt.hash(password, (10)) 
@@ -154,14 +155,14 @@ module.exports.add = async(req, res, next ) =>
 
 module.exports.update = async (req, res, next) => {
   const id = req.params.id;
-  const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  //const hashedPassword = await bcrypt.hash(req.body.password, 10);
   const data = {
-    Email: req.body.email,
-    Password: hashedPassword,
-    Téléphone: req.body.téléphone,
-    IDcardnumber: req.body.idcardnumber,
-    Pays: req.body.pays,
-    Ville: req.body.ville,
+    Email: req.body.Email,
+  //  Password: hashedPassword,
+    Téléphone: req.body.Téléphone,
+    IDcardnumber: req.body.IDcardnumber,
+    Pays: req.body.Pays,
+    Ville: req.body.Ville,
     //Photo: req.body.photo,
     role: req.body.role,
   };
