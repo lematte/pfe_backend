@@ -47,7 +47,7 @@ module.exports.getByIdFormation = async (req, res, next) => {
     const contratformation = await Contratformation.find({
       Formation: req.params.id,
       isVisible: 'true',
-    }).sort({ createdAt: -1 })
+    }) .sort({ createdAt: -1 })
       .populate('Candidat')
       .populate('Formation')
     res.status(200).json(contratformation);
