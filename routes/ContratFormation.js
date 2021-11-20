@@ -17,7 +17,8 @@ router.get('/getByCandidatEtat/:id/:etat', contratformationController.getByCandi
 
 router.post('/add', contratformationController.add);
 router.put('/update/:id', contratformationController.update)
-router.post('/send', contratformationController.send)
+router.post('/sendRefuse', contratformationController.SendMailRefuse)
+router.post('/SendMailAccept', contratformationController.SendMailAccept)
 
 router.delete('/delete/:id', contratformationController.delete)
 

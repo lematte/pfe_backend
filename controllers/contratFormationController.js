@@ -190,38 +190,82 @@ module.exports.testCandidat = async (req, res, next) => {
     });
 };
 
-module.exports.send = (req, res, next) => {
-  const Email = req.body.Email
-  var fromation = req.body.fromation;
-  let smtpTransport = nodemailer.createTransport({
-    service: 'gmail',
-    host: 'smtp.gmail.com',// hostname
-    port: 587, // port for secure SMTP
-    secure: false,
-    requireTLS: true,
-    tls: {
-      ciphers: 'SSLv3'
-    },
-    auth: {
-      user: 'training4all2021@gmail.com',
-      pass: '26763535'
-    }
-  });
-  let mailOptions = {
-    from: 'training4all2021@gmail.com',
-    to: Email,
-    subject: `Réponse`,
-    html: `<h3> Informations  ${fromation}</h3>`
-  };
-  smtpTransport.sendMail(mailOptions, function (error, response) {
-    if (error) {
-      res.send(error)
-    } else {
-      res.send("Success")
-    }
-  })
-  smtpTransport.close()
-}
+
+module.exports.SendMailRefuse = (req, res, next) => {
+  const email =req.body.Email
+  var formation = req.body.Formation;
+  console.log(email+' '+formation)
+  let smtpTransport  = nodemailer.createTransport({
+      service:'gmail',
+      host: 'smtp.gmail.com',// hostname
+      port: 587, // port for secure SMTP
+      secure: false,
+      requireTLS: true,
+      tls: {
+        ciphers:'SSLv3'
+      },
+      auth:{
+        user:'training4all2021@gmail.com',
+        pass:'26763535Training'
+      }
+    });
+    let mailOptions={
+      from:'training4all2021@gmail.com',
+      to:email,
+      subject: "Réponse à la demande"  ,
+      html:` 
+      <h3> Salut, </h3> 
+      Nous vous excusons et nous annonce que votre demande d'inscription  à la formation <b>${formation}</b> a été refusée. <br/>
+      Cordialement.
+      `
+    };
+    smtpTransport.sendMail(mailOptions,function(error,response){
+      if(error){
+        res.send(error)
+      }else{
+        res.send("Success")
+      }
+    })
+    smtpTransport.close()
+  }
+
+module.exports.SendMailAccept = (req, res, next) => {
+  const email =req.body.Email
+  var formation = req.body.Formation;
+console.log(email+' '+formation)
+  let smtpTransport  = nodemailer.createTransport({
+      service:'gmail',
+      host: 'smtp.gmail.com',// hostname
+      port: 587, // port for secure SMTP
+      secure: false,
+      requireTLS: true,
+      tls: {
+        ciphers:'SSLv3'
+      },
+      auth:{
+        user:'training4all2021@gmail.com',
+        pass:'26763535Training'
+      }
+    });
+    let mailOptions={
+      from:'training4all2021@gmail.com',
+      to:email,
+      subject: "Acceptation à la demande"  ,
+      html:` 
+      <h3> Salut, </h3> 
+      votre demande d'inscription à la formation <b>${formation}</b> a été bien retenue. <br/>
+      Cordialement.
+      `
+    };
+    smtpTransport.sendMail(mailOptions,function(error,response){
+      if(error){
+        res.send(error)
+      }else{
+        res.send("Success")
+      }
+    })
+    smtpTransport.close()
+  }
 
 module.exports.update = (req, res, next) => {
   const id = req.params.id;
