@@ -8,6 +8,7 @@ const uploadContratFormation = require('../middleware/contratFormation')
 router.get('/', formationController.getAll);
 router.get('/statut', formationController.getAllByStatut);
 router.get('/getByIdCentre/:id', formationController.getByIdCentre)
+router.get('/salle/:id', formationController.getByidSalle)
 router.get('/getByIdFormateur/:id', formationController.getByIdFormateur)
 router.get('/getByNameAndIdFormateur/:id/:Libelle', formationController.getByNameandIdFormateur)
 router.get('/getByIdCategories/:id', formationController.getByIdCategories)

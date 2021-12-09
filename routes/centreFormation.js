@@ -5,7 +5,7 @@ const uploadContratFormation = require('../middleware/contratFormation')
 
 router.get('/',CentreformationController.getAll);
 router.get('/getBy/:Nom_centre', CentreformationController.getBy);
-//router.get('/getVille/:Ville', CentreformationController.getVille)
+router.get('/getVille/:Ville', CentreformationController.getVille)
 router.get('/getByCode_postal/:Code_postal', CentreformationController.getByCode_postal)
 router.get('/getByIdUser/:id', CentreformationController.getByIdUser);
 router.get('/:id', CentreformationController.getById) 

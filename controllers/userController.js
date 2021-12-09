@@ -57,7 +57,11 @@ module.exports.uploadImage = async (req, res, next) => {
 module.exports.updatePassword = async (req, res, next) => {
   const _id = req.params.id;
   const { Password, password } = req.body;
- /* if (!Password || !password) {
+  console.log(_id)
+  console.log(Password);
+  console.log(password);
+
+  /* if (!Password || !password) {
     return res.status(400).json({ error: "Please enter all fields" });
   }*/
   const user = await Users.findOne({ _id });

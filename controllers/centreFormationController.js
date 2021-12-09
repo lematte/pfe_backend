@@ -44,14 +44,14 @@ module.exports.getBy = async (req, res, next) => {
 };
 
 module.exports.getVille = async (req, res, next) => {
-  const formation = await Centreformation.find({
+  const formation = await Users.find({
       isVisible : "true",
       role: "centre_formation",
     $or: [
-      {Ville : {$regex: req.params.User.Ville, $options: 'i'}},
+      {Ville : {$regex: req.params.Ville, $options: 'i'}},
     ],
   })
-  .populate('User')
+ // .populate('User')
     .then((data) => {
       res.json(data);
       data.User;

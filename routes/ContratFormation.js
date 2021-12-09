@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const contratformationController = require('../controllers/contratFormationController')
+const uploadContrat = require('../middleware/contratFormation')
 
 router.get('/',contratformationController.getAll);
 router.get('/:id', contratformationController.getById )
@@ -21,5 +22,7 @@ router.post('/sendRefuse', contratformationController.SendMailRefuse)
 router.post('/SendMailAccept', contratformationController.SendMailAccept)
 
 router.delete('/delete/:id', contratformationController.delete)
+router.post('/uploadContrat/:id',uploadContrat, contratformationController.uploadContrat_formation)
+
 
 module.exports = router;

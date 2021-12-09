@@ -28,7 +28,6 @@ module.exports.getById = (req, res, next) => {
 module.exports.add = (req, res, next) => {
   const newContratformation = new Contratformation({
     Libelle: req.body.Libelle,
-    Contrat: req.body.Contrat,
     etat: req.body.etat,
     Formation: req.body.Formation,
     Candidat: req.body.Candidat,
@@ -298,3 +297,20 @@ module.exports.delete = (req, res, next) => {
       res.json(err)
     })
 }
+
+
+module.exports.uploadContrat_formation = async (req, res, next) => {
+  const id = req.params.id;
+  const data = {
+    Contrat: req.file.path
+  };
+  const formation = Contratformation.findByIdAndUpdate({ _id: id }, data, { new: true })
+  .populate('Formation')
+  .populate('Candidat')
+      .then((data) => {
+          res.json(data);
+      })
+      .catch((err) => {
+          res.json(err);
+      });
+};

@@ -58,6 +58,20 @@ module.exports.getByIdCenter = async (req, res, next) => {
     }
 };
 
+module.exports.getByIdCenterdistinct  = async (req, res, next) => {
+    try {
+        const contratformateur = await Contrat_formateur.find({
+            idCentre_formation: req.params.id,
+            etat:"acceptée",
+            isVisible: 'true',
+        }).sort({ createdAt: -1 })
+            .populate("idFormateur")
+            .populate("idCentre_formation")
+        res.status(200).json(contratformateur);
+    } catch (err) {
+        res.status(404).json({ message: error.message });
+    }
+};
 module.exports.getContrat_formateurByIdFormateur = async (req, res, next) => {
     await Contrat_formateur.find({
         isVisible: "true",

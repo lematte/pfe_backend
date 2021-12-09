@@ -8,6 +8,7 @@ const sendgridTransport = require("nodemailer-sendgrid-transport");
 var smtpTransport = require('nodemailer-smtp-transport');
 
 var bcrypt = require("bcrypt");
+var crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 
 /*let transporter = nodemailer.createTransport(
@@ -143,7 +144,7 @@ module.exports.signup = async (req, res, next) => {
               subject: "signup success",
               html: "<h1>welcome to Taining4All</h1>",
             });*/
-          let smtpTransport = nodemailer.createTransport({
+       /*   let smtpTransport = nodemailer.createTransport({
             service: 'gmail',
             host: 'smtp.gmail.com',// hostname
             port: 587, // port for secure SMTP
@@ -170,7 +171,7 @@ module.exports.signup = async (req, res, next) => {
               res.send("Success")
             }
           })
-          smtpTransport.close()
+          smtpTransport.close()*/
         });
     });
   } catch {
@@ -237,3 +238,48 @@ module.exports.signout = (req, res) => {
     message: "Signout successfully",
   });
 };
+
+
+module.exports.sendOTP = (req, res) => {
+
+  const client = require('twilio')("ACa597c8b168041387cdc6e623a202f873", "d7fe06d44062c5d9811cd9970edde13a")
+
+  const Téléphone = req.body.Téléphone
+  const otp = Math.floor(100000 + Math.random() * 900000)
+  const ttl = 2 * 60 * 1000
+  const expires = Date.now() + ttl
+  const data = `${Téléphone}.${otp}.${expires}`
+  const hash = crypto.createHmac('sha256', "4d2fa64935b719216648dcd8870004f83b58894eeb741d5a7343900a1e7a322f643734592bf14476d4433bafec75365fdae80418d605b6867421f93dc989e070").update(data).digest('hex')
+  const fullHash = `${hash}.${expires}`
+
+  client.messages.create({
+    body: `Your one Time Register Password For training for all is ${otp}`,
+    from: +12176802677,
+    to: `+216${Téléphone}`
+  }).then((messages) => console.log(messages)).catch((err) => console.error(err))
+  res.status(200).send({ Téléphone, hash: fullHash, otp })
+}
+
+module.exports.verifyOTP = (req, res) => {
+
+  //  const client = require('twilio')("AC8838155d229a5b5b07759f6780d3cbb5", "acba9f1f14593e8cb93bc0fa112ae9ef")
+
+  const Téléphone = req.body.Téléphone
+  const hash = req.body.hash
+  const otp = req.body.otp
+  let [hashValue, expires] = hash.split('.')
+
+  let now = Date.now()
+  if (now > parseInt(expires)) {
+    return res.status(504).send({ msg: 'timeout please try again' })
+  }
+  const data = `${Téléphone}.${otp}.${expires}`
+  const newCalculatedHash = crypto.createHmac('sha256', "4d2fa64935b719216648dcd8870004f83b58894eeb741d5a7343900a1e7a322f643734592bf14476d4433bafec75365fdae80418d605b6867421f93dc989e070").update(data).digest('hex')
+
+  if (newCalculatedHash === hashValue) {
+
+    return res.status(202).send({ msg: 'user Confirmed', otp: otp })
+  } else {
+    return res.status(400).send({ verification: false, msg: 'incorrect OTP' })
+  }
+}
