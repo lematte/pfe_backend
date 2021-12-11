@@ -1,4 +1,5 @@
 const Contrat_formateur = require('../models/ContratFormateurModel')
+const Formateur = require('../models/FormateurModel');
 
 module.exports.getAll = async (req, res, next) => {
     await Contrat_formateur.find({
@@ -60,18 +61,51 @@ module.exports.getByIdCenter = async (req, res, next) => {
 
 module.exports.getByIdCenterdistinct  = async (req, res, next) => {
     try {
-        const contratformateur = await Contrat_formateur.find({
+
+        const ids = await Contrat_formateur.find({
             idCentre_formation: req.params.id,
-            etat:"acceptée",
             isVisible: 'true',
-        }).sort({ createdAt: -1 })
-            .populate("idFormateur")
-            .populate("idCentre_formation")
+            etat: 'acceptée'
+
+        }).distinct('idFormateur')
+        const idss=[];
+        ids.forEach(element =>{
+            idss.push(""+element);
+        })
+        const contratformateur = await Formateur.find({
+            _id:{ $in : ids } 
+        }).populate('User')
+        console.log(idss)
         res.status(200).json(contratformateur);
     } catch (err) {
-        res.status(404).json({ message: error.message });
+        res.status(404).json({ message: err.message });
     }
 };
+
+module.exports.getByIdFormateurdistinctCentre  = async (req, res, next) => {
+    try {
+
+        const ids = await Contrat_formateur.find({
+            idFormateur: req.params.id,
+            isVisible: 'true',
+            etat: 'acceptée'
+
+        }).distinct('idCentre_formation')
+      /*  const idss=[];
+        ids.forEach(element =>{
+            idss.push(""+element);
+        })
+        const contratformateur = await Formateur.find({
+            _id:{ $in : ids } 
+        }).populate('User')
+        console.log(idss)
+        res.status(200).json(contratformateur);*/
+        res.status(200).json(ids);
+    } catch (err) {
+        res.status(404).json({ message: err.message });
+    }
+};
+
 module.exports.getContrat_formateurByIdFormateur = async (req, res, next) => {
     await Contrat_formateur.find({
         isVisible: "true",

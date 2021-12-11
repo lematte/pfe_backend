@@ -7,5 +7,6 @@ router.get('/:id', candidatController.getById )
 router.get('/getByIdUser/:id', candidatController.getByIdUser);
 router.put('/update/:id', candidatController.update)
 router.delete('/:id/delete', candidatController.delete)
+router.get('/getByNom/:Nom', candidatController.getByCandidatNom )
 
 module.exports = router

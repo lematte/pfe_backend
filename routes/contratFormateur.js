@@ -13,6 +13,6 @@ router.delete('/delete/:id', Contrat_formateurController.delete)
 router.post('/uploadContrat/:id',uploadContrat, Contrat_formateurController.uploadContrat_formateur)
 router.get('/getBy/:etat', Contrat_formateurController.getByEtat);
 router.get('/getByIdCenterdistinct/:id', Contrat_formateurController.getByIdCenterdistinct);
-
+router.get('/getByIdFormateurdistinctCentre/:id', Contrat_formateurController.getByIdFormateurdistinctCentre);
 module.exports = router;
   

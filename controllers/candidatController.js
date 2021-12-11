@@ -1,6 +1,5 @@
 const Candidat = require('../models/CandidatModel');
 const Users = require('../models/UserModel');
-const userController = './userController';
 var bcrypt = require('bcrypt');
 
 module.exports.getAll = async (req, res, next) => {
@@ -19,6 +18,21 @@ module.exports.getAll = async (req, res, next) => {
 
 module.exports.getById = (req, res, next) => {
   Candidat.findById({_id: req.params.id})
+    .populate('User')
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+module.exports.getByCandidatNom = (req, res, next) => {
+  Candidat.find({
+    isVisible: "true",
+    $or: [
+      { Nom: { $regex: req.params.Nom, $options: 'i' } },
+    ],
+  })
     .populate('User')
     .then((data) => {
       res.json(data);

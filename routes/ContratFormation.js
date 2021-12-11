@@ -12,6 +12,8 @@ router.get('/getByLibelle/:Libelle', contratformationController.getByLibelle)
 router.get('/getBy/:id/:etat', contratformationController.getByEtat);
 router.get('/getByCandidatEtat/:id/:etat', contratformationController.getByCandidatEtat);
 
+router.get('/getCandidatByIdCentre/:id', contratformationController.getCandidatAccepteByIdCentre)
+
 //router.get('/getByIdFormationDemande/:id', contratformationController.getByIdFormationCDemander)
 //router.get('/getByIdFormationAccepter/:id', contratformationController.getByIdFormationCAccepter)
 //router.get('/getByIdFormationRejeter/:id', contratformationController.getByIdFormationCRejeter)
